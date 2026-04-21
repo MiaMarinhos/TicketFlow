@@ -2,15 +2,21 @@ package pe.edu.pucp.ticketflow.dao.impl;
 
 import pe.edu.pucp.ticketflow.dao.ClienteDAO;
 import pe.edu.pucp.ticketflow.usuario.model.Cliente;
+import pe.edu.pucp.ticketflow.dao.manager.DBManager;
 
-public class ClienteDAOimpl implements ClienteDAO {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+public class ClienteDAOimp implements ClienteDAO{
     @Override
-    public void create(Cliente administrador){
-        String sql = "";
+    public void create(Cliente cliente){
+
     }
     @Override
     public Cliente read(Integer id){
-        String sql = "";
+
     }
     @Override
     public void update(Cliente administrador){

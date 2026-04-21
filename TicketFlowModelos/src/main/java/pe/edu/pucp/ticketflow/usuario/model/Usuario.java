@@ -1,128 +1,126 @@
 package pe.edu.pucp.ticketflow.usuario.model;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class Usuario {
     private int idUsuario;
-    private String nombres;
-    private String apellidos;
-    private String correo;
-    private String contrasenia;
-    private String telefono;
-    private LocalDate fechaRegistro;
-    private EstadoPerfil estado;
-    private LocalDate fechaNacimiento;
-    private TipoPerfil tipo;
     private String dni;
-    private Genero gen;
+    private String nombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
+    private String telefono;
+    private String correoElectronico;
+    private String contrasena;
+    private Date fechaRegistro;
+    private int edad;
+    private String tipoUsuario;
+    private int idDistrito;
+    private int idRegion;
 
-    //CONSTRUCTORES
+    public Usuario() {
+    }
 
-    public Usuario(){}
+    public int getIdUsuario() {
+        return idUsuario;
+    }
 
-    public Usuario(int idUsuario,String nombres, String apellidos,
-                   String correo,String contrasenia,String telefono,
-                   LocalDate fechaRegistro, EstadoPerfil estado, LocalDate fechaNacimiento,
-                   TipoPerfil tipo, String dni, Genero gen){
-        this.idUsuario=idUsuario;
-        this.nombres=nombres;
-        this.apellidos=apellidos;
-        this.correo=correo;
-        this.contrasenia=contrasenia;
-        this.telefono=telefono;
-        this.fechaRegistro=fechaRegistro;
-        this.estado = estado;
-        this.fechaNacimiento = fechaNacimiento;
-        this.tipo = tipo;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
         this.dni = dni;
-        this.gen = gen;
     }
 
-    //GETTER AND SETTERS
-
-    public int getIdUsuario(){
-        return this.idUsuario;
-    }
-    public void setIdUsuario(int idUsuario){
-        this.idUsuario=idUsuario;
+    public String getNombre() {
+        return nombre;
     }
 
-    public String getNombres(){
-        return this.nombres;
-    }
-    public void setNombre(String nombres){
-        this.nombres=nombres;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getApellidos(){
-        return this.apellidos;
-    }
-    public void setApellido(String apellidos){
-        this.apellidos=apellidos;
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
     }
 
-    public String getCorreo(){
-        return this.correo;
-    }
-    public void setCorreo(String correo){
-        this.correo=correo;
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
     }
 
-    public String getContrasenia(){
-        return this.contrasenia;
-    }
-    public void setContrasenia(String contrasenia){
-        this.contrasenia=contrasenia;
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
     }
 
-    public String getTelefono(){
-        return this.telefono;
-    }
-    public void setTelefono(String telefono){
-        this.telefono=telefono;
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
     }
 
-    public LocalDate getFechaRegistro(){
-        return this.fechaRegistro;
-    }
-    public void setFechaRegistro(LocalDate fechaRegistro){
-        this.fechaRegistro=fechaRegistro;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public EstadoPerfil getEstado(){
-        return this.estado;
-    }
-    public void setEstado(EstadoPerfil estado){
-        this.estado=estado;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
-    public LocalDate getFechaNacimiento(){
-        return this.fechaNacimiento;
-    }
-    public void setFechaNacimiento(LocalDate fechaNacimiento){
-        this.fechaNacimiento=fechaNacimiento;
+    public String getCorreoElectronico() {
+        return correoElectronico;
     }
 
-    public TipoPerfil getTipo(){
-        return this.tipo;
-    }
-    public void setTipo(TipoPerfil tipo){
-        this.tipo=tipo;
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
     }
 
-    public String getDni(){
-        return this.dni;
-    }
-    public void setDni(String dni){
-        this.dni=dni;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public Genero getGen(){
-        return this.gen;
-    }
-    public void setGen(Genero gen){
-        this.gen=gen;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
 
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
+    public int getIdDistrito() {
+        return idDistrito;
+    }
+
+    public void setIdDistrito(int idDistrito) {
+        this.idDistrito = idDistrito;
+    }
+
+    public int getIdRegion() {
+        return idRegion;
+    }
+
+    public void setIdRegion(int idRegion) {
+        this.idRegion = idRegion;
+    }
 }
