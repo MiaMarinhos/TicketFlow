@@ -16,10 +16,14 @@ public class Anfitrion extends Usuario{
 
     //CONSTRUCTORES
 
+    public Anfitrion(){
+
+    }
+
     public Anfitrion(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno,
                      String telefono, String correoElectronico, String contrasena, Date fechaRegistro, int edad,
                      String tipoUsuario, String dni, int idDistrito, int idRegion, String razonSocial,
-                     String ruc, String CuentaBancaria, Banco bank){
+                     String ruc, String cuentaBancaria, Banco bank){
         super(idUsuario,  nombre,  apellidoPaterno, apellidoMaterno, telefono,  correoElectronico, contrasena, fechaRegistro,
                 edad, tipoUsuario, dni, idDistrito, idRegion);		this.razonSocial=razonSocial;
         this.razonSocial=razonSocial;
@@ -48,7 +52,7 @@ public class Anfitrion extends Usuario{
 
 
     public String getCuentaBancaria(){
-        return this.ruc;
+        return this.cuentaBancaria;
     }
     public void setCuentaBancaria(String cuentaBancaria){
         this.cuentaBancaria = cuentaBancaria;
