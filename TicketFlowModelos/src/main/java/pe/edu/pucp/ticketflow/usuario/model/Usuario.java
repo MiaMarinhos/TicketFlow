@@ -20,6 +20,24 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(int idUsuario, String nombre, String apellidoPaterno,String apellidoMaterno,
+                   String telefono, String correoElectronico, String contrasena, Date fechaRegistro, int edad,
+                   String tipoUsuario,String dni, int idDistrito, int idRegion) {
+        this.idUsuario = idUsuario;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+        this.contrasena = contrasena;
+        this.fechaRegistro = fechaRegistro;
+        this.edad = edad;
+        this.tipoUsuario = tipoUsuario;
+        this.idDistrito = idDistrito;
+        this.idRegion = idRegion;
+    }
+
     public int getIdUsuario() {
         return idUsuario;
     }
