@@ -23,12 +23,12 @@ public class DBManager {
         }catch(IOException ex){
             System.out.println("Error when loading properties file: " + ex.getMessage());
         }
-        String host = properties.getProperty("host");
-        String port = properties.getProperty("port");
-        String database = properties.getProperty("database");
+        String host = properties.getProperty("db.host");
+        String port = properties.getProperty("db.puerto");
+        String database = properties.getProperty("db.esquema");
         this.url = "jdbc:mysql://" + host + ":" + port + "/" + database;
-        this.user = properties.getProperty("user");
-        this.password = properties.getProperty("password");
+        this.user = properties.getProperty("db.usuario");
+        this.password = properties.getProperty("db.password");
     }
 
     public static DBManager getInstance(){
