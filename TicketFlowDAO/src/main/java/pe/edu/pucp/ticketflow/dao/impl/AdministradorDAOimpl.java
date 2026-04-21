@@ -25,8 +25,34 @@ public class AdministradorDAOimpl implements AdministradorDAO {
             if (resultado > 0) {
                 return administrador;
             }
+
         } catch (SQLException e) {
             throw new RuntimeException("No se pudo crear el Administrador", e);
+
+            //return administrador;
+        } catch (SQLException e){
+            //throw new RuntimeException("No se puedo crear el Administrador", e);
+        }
+        return null;
+    }
+
+    @Override
+    public Administrador read(Integer id){
+        //Administrador administrador= new Administrador();
+        String sql = "<sql script>";
+
+        try(Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    //TODO
+
+                    //return administrador;
+                }
+            }
+        } catch (SQLException e){
+            //throw new RuntimeException("No se pudo leer el Administrador", e);
         }
         return null;
     }
@@ -72,6 +98,7 @@ public class AdministradorDAOimpl implements AdministradorDAO {
         } catch (SQLException e) {
             throw new RuntimeException("No se pudo actualizar el Administrador", e);
         }
+        return null;
     }
 
     @Override
