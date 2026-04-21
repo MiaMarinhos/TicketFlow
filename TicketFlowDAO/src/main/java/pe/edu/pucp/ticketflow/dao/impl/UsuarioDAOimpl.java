@@ -4,18 +4,16 @@ import pe.edu.pucp.ticketflow.dao.UsuarioDAO;
 import pe.edu.pucp.ticketflow.usuario.model.Usuario;
 import pe.edu.pucp.ticketflow.dao.manager.DBManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class UsuarioDAOimpl implements UsuarioDAO {
     @Override
-    public int create(Usuario usuario){
+    public Usuario create(Usuario usuario){
         int resultado = 0;
         String sql = "INSERT INTO Usuario(dni, nombre, apellido_paterno, apellido_materno, telefono, correo_electronico, contrasena, fecha_registro, edad, tipo_usuario, idDistrito, idRegion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = DBManager.getInstance().getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, usuario.getDni());
             ps.setString(2, usuario.getNombre());
@@ -31,15 +29,22 @@ public class UsuarioDAOimpl implements UsuarioDAO {
             ps.setInt(12, usuario.getIdRegion());
 
             resultado = ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+            if(resultado>0){
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int newId = generatedKeys.getInt(1);
+                        usuario.setIdUsuario(newId);
+                    }
+                }
+            }
+            return usuario;
+        } catch (SQLException e) {
+            throw new RuntimeException("No se puedo crear el Usuario", e);
         }
-
-        return resultado;
     }
     @Override
     public Usuario read(Integer id){
-        Usuario usuario = null;
+        Usuario usuario = new Usuario();
         String sql = "SELECT * FROM Usuario WHERE idUsuario=?";
 
         try (Connection con = DBManager.getInstance().getConnection();
@@ -48,7 +53,6 @@ public class UsuarioDAOimpl implements UsuarioDAO {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    usuario = new Usuario();
                     usuario.setIdUsuario(rs.getInt("idUsuario"));
                     usuario.setDni(rs.getString("dni"));
                     usuario.setNombre(rs.getString("nombre"));
@@ -62,16 +66,17 @@ public class UsuarioDAOimpl implements UsuarioDAO {
                     usuario.setTipoUsuario(rs.getString("tipo_usuario"));
                     usuario.setIdDistrito(rs.getInt("idDistrito"));
                     usuario.setIdRegion(rs.getInt("idRegion"));
+
+                    return usuario;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException("No se pudo leer el Usuario", e);
         }
-
-        return usuario;
+        return null;
     }
     @Override
-    public int update(Usuario usuario){
+    public Usuario update(Usuario usuario){
         int resultado = 0;
         String sql = "UPDATE Usuario SET dni=?, nombre=?, apellido_paterno=?, apellido_materno=?, telefono=?, correo_electronico=?, contrasena=?, fecha_registro=?, edad=?, tipo_usuario=?, idDistrito=?, idRegion=? WHERE idUsuario=?";
 
@@ -92,26 +97,23 @@ public class UsuarioDAOimpl implements UsuarioDAO {
             ps.setInt(12, usuario.getIdRegion());
             ps.setInt(13, usuario.getIdUsuario());
 
-            resultado = ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+            ps.executeUpdate();
+            return usuario;
+        } catch (SQLException e) {
+            throw new RuntimeException("No se pudo actualizar el Usuario", e);
         }
-
-        return resultado;
     }
     @Override
-    public int delete(Integer id){
+    public void delete(Integer id){
         int resultado = 0;
         String sql = "DELETE FROM Usuario WHERE idUsuario=?";
 
         try (Connection con = DBManager.getInstance().getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
-            resultado = ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("No se pudo eliminar el Usuario", e);
         }
-
-        return resultado;
     }
 }

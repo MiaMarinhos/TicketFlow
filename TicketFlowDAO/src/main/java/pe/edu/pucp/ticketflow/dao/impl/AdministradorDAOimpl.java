@@ -10,19 +10,19 @@ import java.util.List;
 
 public class AdministradorDAOimpl implements AdministradorDAO {
     @Override
-    public int create(Administrador administrador){
-        String sql = "";
+    public Administrador create(Administrador administrador){
+
     }
     @Override
     public Administrador read(Integer id){
-        String sql = "";
+
     }
     @Override
-    public int update(Administrador administrador){
-        String sql = "";
+    public Administrador update(Administrador administrador){
+
     }
     @Override
-    public int delete(Integer id){
+    public void delete(Integer id){
         String sql = "";
     }
 }

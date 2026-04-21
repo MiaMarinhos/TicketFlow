@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 
 public class ClienteDAOimpl implements ClienteDAO{
     @Override
-    public int create(Cliente cliente){
+    public Cliente create(Cliente cliente){
 
     }
     @Override
