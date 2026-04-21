@@ -7,6 +7,8 @@ import pe.edu.pucp.ticketflow.evento.model.Evento;
 import java.sql.*;
 import java.util.List;
 
+import static java.sql.Date.valueOf;
+
 public class EventoDAOimpl implements EventoDAO {
     private List<Evento> eventos;
 
@@ -22,7 +24,27 @@ public class EventoDAOimpl implements EventoDAO {
         try(Connection con = DBManager.getInstance().getConnection();
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             //TODO
+            ps.setInt(1, evento.getIdEvento());
+            ps.setString(2,evento.getNombreEvento());
+            ps.setString(3,evento.getCat().name());
+            ps.setDate(4, valueOf(evento.getDuracion()));
+            ps.setTime(5, java.sql.Time.valueOf(evento.getHoraInicio()));
+            ps.setTime(6,java.sql.Time.valueOf(evento.getHoraFin()));
+            ps.setString(7, evento.getEstado().name());
+            ps.setString(8, evento.getUbicacion());
+            ps.setString(9,evento.getNombreEstablecimiento());
+            ps.setDouble(10,evento.getPrecioEntrada());
             
+            ps.setString(11, evento.getUrlPoster());
+
+            ps.setInt(12,evento.getCapacidadEntradas());
+            ps.setInt(13,evento.getEntradasAdquiridas());
+
+            ps.setDouble(14,evento.getTotalReal());
+            ps.setDouble(15, evento.getTotalRecaudado());
+
+            ps.setInt(16,evento.getAnfi().getIdUsuario());
+
             int resultado = ps.executeUpdate();
             if(resultado>0){
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
