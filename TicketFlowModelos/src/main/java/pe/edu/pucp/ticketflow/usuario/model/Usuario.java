@@ -18,6 +18,12 @@ public class Usuario {
     private int idRegion;
 
     public Usuario() {
+
+    }
+    public Usuario(int idUsuario, String dni, String nombre, String apellidoPaterno, String apellidoMaterno,
+    String telefono, String correoElectronico, String contrasena, Date fechaRegistro, int edad,
+    String tipoUsuario, int idDistrito, int idRegion){
+        this.idUsuario=idUsuario;
     }
 
     public int getIdUsuario() {
