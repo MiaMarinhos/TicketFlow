@@ -10,7 +10,7 @@ import java.util.List;
 
 public class AdministradorDAOimpl implements AdministradorDAO {
     @Override
-    public void create(Administrador administrador){
+    public int create(Administrador administrador){
         String sql = "";
     }
     @Override
@@ -18,11 +18,11 @@ public class AdministradorDAOimpl implements AdministradorDAO {
         String sql = "";
     }
     @Override
-    public void update(Administrador administrador){
+    public int update(Administrador administrador){
         String sql = "";
     }
     @Override
-    public void delete(Integer id){
+    public int delete(Integer id){
         String sql = "";
     }
 }

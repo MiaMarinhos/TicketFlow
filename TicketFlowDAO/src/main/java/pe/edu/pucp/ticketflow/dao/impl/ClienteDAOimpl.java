@@ -7,11 +7,10 @@ import pe.edu.pucp.ticketflow.dao.manager.DBManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
-public class ClienteDAOimp implements ClienteDAO{
+public class ClienteDAOimpl implements ClienteDAO{
     @Override
-    public void create(Cliente cliente){
+    public int create(Cliente cliente){
 
     }
     @Override
@@ -19,11 +18,11 @@ public class ClienteDAOimp implements ClienteDAO{
 
     }
     @Override
-    public void update(Cliente administrador){
+    public int update(Cliente cliente){
         String sql = "";
     }
     @Override
-    public void delete(Integer id){
+    public int delete(Integer id){
         String sql = "";
     }
 }
