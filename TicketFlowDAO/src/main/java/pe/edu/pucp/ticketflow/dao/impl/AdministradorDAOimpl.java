@@ -58,11 +58,11 @@ public class AdministradorDAOimpl implements AdministradorDAO {
 
             int affectedRows = ps.executeUpdate();
             if(affectedRows==0){
-                throw new RuntimeException("No se encontro el Administrador");
+                //throw new RuntimeException("No se encontro el Administrador");
             }
             //return administrador;
         } catch (SQLException e){
-            throw new RuntimeException("No se pudo actualizar el Administrador", e);
+            //throw new RuntimeException("No se pudo actualizar el Administrador", e);
         }
     }
     @Override
@@ -73,10 +73,10 @@ public class AdministradorDAOimpl implements AdministradorDAO {
             ps.setInt(1, id);
             int affectedRows = ps.executeUpdate();
             if(affectedRows==0){
-                throw new RuntimeException("No se encontro el Administrador");
+                //throw new RuntimeException("No se encontro el Administrador");
             }
         }catch (SQLException e){
-            throw new RuntimeException("No se pudo eliminar el Administrador", e);
+            //throw new RuntimeException("No se pudo eliminar el Administrador", e);
         }
     }
 }
