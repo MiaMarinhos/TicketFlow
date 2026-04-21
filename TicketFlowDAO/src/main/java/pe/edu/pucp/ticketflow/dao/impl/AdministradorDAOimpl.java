@@ -1,34 +1,41 @@
 package pe.edu.pucp.ticketflow.dao.impl;
 
 import pe.edu.pucp.ticketflow.dao.AdministradorDAO;
-import pe.edu.pucp.ticketflow.usuario.model.Administrador;
 import pe.edu.pucp.ticketflow.dao.manager.DBManager;
+import pe.edu.pucp.ticketflow.usuario.model.Administrador;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AdministradorDAOimpl implements AdministradorDAO {
-    @Override
-    public Administrador create(Administrador administrador){
-        String sql = "<sql script>";
 
-        try(Connection con = DBManager.getInstance().getConnection();
-            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-            //TODO
+    @Override
+    public Administrador create(Administrador administrador) {
+        String sql = "INSERT INTO Administrador(idAdministrador, codigo) VALUES (?, ?)";
+
+        try (Connection con = DBManager.getInstance().getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, administrador.getIdUsuario());
+            ps.setString(2, String.valueOf(administrador.getCodigoAdmin()));
 
             int resultado = ps.executeUpdate();
-            if(resultado>0){
-                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        int newId = generatedKeys.getInt(1);
-                        //administrador.setIdUsuario(newId);
-                    }
-                }
+            if (resultado > 0) {
+                return administrador;
             }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("No se pudo crear el Administrador", e);
+
             //return administrador;
         } catch (SQLException e){
             //throw new RuntimeException("No se puedo crear el Administrador", e);
         }
+        return null;
     }
+
     @Override
     public Administrador read(Integer id){
         //Administrador administrador= new Administrador();
@@ -49,34 +56,65 @@ public class AdministradorDAOimpl implements AdministradorDAO {
         }
         return null;
     }
+
     @Override
-    public Administrador update(Administrador administrador){
-        String sql = "<sql script>";
+    public Administrador read(Integer id) {
+        Administrador administrador = new Administrador();
+        String sql = "SELECT * FROM Administrador WHERE idAdministrador=?";
+
         try (Connection con = DBManager.getInstance().getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)){
-            //TODO
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    administrador.setIdUsuario(rs.getInt("idAdministrador"));
+                    administrador.setCodigoAdmin(Integer.parseInt(rs.getString("codigo")));
+                    return administrador;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("No se pudo leer el Administrador", e);
+        }
+        return null;
+    }
+
+    @Override
+    public Administrador update(Administrador administrador) {
+        String sql = "UPDATE Administrador SET codigo=? WHERE idAdministrador=?";
+
+        try (Connection con = DBManager.getInstance().getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, String.valueOf(administrador.getCodigoAdmin()));
+            ps.setInt(2, administrador.getIdUsuario());
 
             int affectedRows = ps.executeUpdate();
-            if(affectedRows==0){
-                //throw new RuntimeException("No se encontro el Administrador");
+            if (affectedRows == 0) {
+                throw new RuntimeException("No se encontró el Administrador");
             }
-            //return administrador;
-        } catch (SQLException e){
-            //throw new RuntimeException("No se pudo actualizar el Administrador", e);
+            return administrador;
+        } catch (SQLException e) {
+            throw new RuntimeException("No se pudo actualizar el Administrador", e);
         }
+        return null;
     }
+
     @Override
-    public void delete(Integer id){
-        String sql = "<sql script>";
+    public void delete(Integer id) {
+        String sql = "DELETE FROM Administrador WHERE idAdministrador=?";
+
         try (Connection con = DBManager.getInstance().getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)){
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, id);
             int affectedRows = ps.executeUpdate();
-            if(affectedRows==0){
-                //throw new RuntimeException("No se encontro el Administrador");
+            if (affectedRows == 0) {
+                throw new RuntimeException("No se encontró el Administrador");
             }
-        }catch (SQLException e){
-            //throw new RuntimeException("No se pudo eliminar el Administrador", e);
+        } catch (SQLException e) {
+            throw new RuntimeException("No se pudo eliminar el Administrador", e);
         }
     }
 }
