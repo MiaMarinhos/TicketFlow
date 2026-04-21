@@ -8,11 +8,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Compra {
-    private int idVenta;
+    private int idCompra;
     private MetodoPago metodo;
     private int cantidadEntradas;
-    private LocalDate fechaVenta;
-    private LocalTime horaVenta;
+    private LocalDate fechaCompra;
+    private LocalTime horaCompra;
     private int puntosUsados;
     private double montoParcial;
     private double descuento;
@@ -26,15 +26,15 @@ public class Compra {
     // CONSTRUCTORES
     public Compra() {}
 
-    public Compra(int idVenta, MetodoPago metodo, int cantidadEntradas, LocalDate fechaVenta,
-                  LocalTime horaVenta, int puntosUsados, double montoParcial, double descuento,
+    public Compra(int idCompra, MetodoPago metodo, int cantidadEntradas, LocalDate fechaCompra,
+                  LocalTime horaCompra, int puntosUsados, double montoParcial, double descuento,
                   double montoTotal, EstadoCompra estado, Anfitrion anf,
                   Evento eve, Cliente cli) {
-        this.idVenta = idVenta;
+        this.idCompra = idCompra;
         this.metodo = metodo;
         this.cantidadEntradas = cantidadEntradas;
-        this.fechaVenta = fechaVenta;
-        this.horaVenta = horaVenta;
+        this.fechaCompra = fechaCompra;
+        this.horaCompra = horaCompra;
         this.puntosUsados = puntosUsados;
         this.montoParcial = montoParcial;
         this.descuento = descuento;
@@ -47,12 +47,12 @@ public class Compra {
     }
 
     // GETTERS AND SETTERS
-    public int getIdVenta() {
-        return idVenta;
+    public int getIdCompra() {
+        return idCompra;
     }
 
-    public void setIdVenta(int idVenta) {
-        this.idVenta = idVenta;
+    public void setIdCompra(int idCompra) {
+        this.idCompra = idCompra;
     }
 
     public MetodoPago getMetodo() {
@@ -71,20 +71,20 @@ public class Compra {
         this.cantidadEntradas = cantidadEntradas;
     }
 
-    public LocalDate getFechaVenta() {
-        return fechaVenta;
+    public LocalDate getFechaCompra() {
+        return fechaCompra;
     }
 
-    public void setFechaVenta(LocalDate fechaVenta) {
-        this.fechaVenta = fechaVenta;
+    public void setFechaCompra(LocalDate fechaCompra) {
+        this.fechaCompra = fechaCompra;
     }
 
-    public LocalTime getHoraVenta() {
-        return horaVenta;
+    public LocalTime getHoraCompra() {
+        return horaCompra;
     }
 
-    public void setHoraVenta(LocalTime horaVenta) {
-        this.horaVenta = horaVenta;
+    public void setHoraCompra(LocalTime horaCompra) {
+        this.horaCompra = horaCompra;
     }
 
     public int getPuntosUsados() {
