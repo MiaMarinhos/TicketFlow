@@ -67,7 +67,7 @@ public class Compra {
         return cantidadEntradas;
     }
 
-    public void setCantidadEntradass(int cantidadEntradas) {
+    public void setCantidadEntradas(int cantidadEntradas) {
         this.cantidadEntradas = cantidadEntradas;
     }
 
