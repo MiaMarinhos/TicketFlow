@@ -4,16 +4,27 @@ import pe.edu.pucp.ticketflow.compra.model.Compra;
 import pe.edu.pucp.ticketflow.dao.CompraDAO;
 import pe.edu.pucp.ticketflow.dao.manager.DBManager;
 
+import java.util.Date;
 import java.sql.*;
 
 public class CompraDAOimpl implements CompraDAO {
     @Override
     public Compra create(Compra compra){
-        String sql = "INSERT INTO compras VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO compras(entradas_compradas, fecha_compra, metodo_pago, hora_compra, estado, monto_parcial, monto_total, idPuntos_bonus, idCliente, idEvento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try(Connection con = DBManager.getInstance().getConnection();
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-            //TODO
+
+            ps.setInt(1, compra.getCantidadEntradas());
+            ps.setDate(2, java.sql.Date.valueOf(compra.getFechaCompra()));
+            ps.setString(3, compra.getMetodo().name());
+            ps.setTime(4, java.sql.Time.valueOf(compra.getHoraCompra()));
+            ps.setString(5, compra.getEstado().name());
+            ps.setDouble(6, compra.getMontoParcial());
+            ps.setDouble(7, compra.getMontoTotal());
+            ps.setInt(8, compra.getPun().getIdPuntosBonus());
+            ps.setInt(9, compra.getCli().getIdUsuario());
+            ps.setInt(10, compra.getEve().getIdEvento());
 
             int resultado = ps.executeUpdate();
             if(resultado>0){

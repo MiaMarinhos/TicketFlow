@@ -1,6 +1,7 @@
 package pe.edu.pucp.ticketflow.compra.model;
 
 import pe.edu.pucp.ticketflow.evento.model.Evento;
+import pe.edu.pucp.ticketflow.puntos_bonus.model.PuntosBonus;
 import pe.edu.pucp.ticketflow.usuario.model.Anfitrion;
 import pe.edu.pucp.ticketflow.usuario.model.Cliente;
 
@@ -22,6 +23,7 @@ public class Compra {
     private Anfitrion anf;
     private Evento eve;
     private Cliente cli;
+    private PuntosBonus pun;
 
     // CONSTRUCTORES
     public Compra() {}
@@ -29,7 +31,7 @@ public class Compra {
     public Compra(int idCompra, MetodoPago metodo, int cantidadEntradas, LocalDate fechaCompra,
                   LocalTime horaCompra, int puntosUsados, double montoParcial, double descuento,
                   double montoTotal, EstadoCompra estado, Anfitrion anf,
-                  Evento eve, Cliente cli) {
+                  Evento eve, Cliente cli, PuntosBonus pun) {
         this.idCompra = idCompra;
         this.metodo = metodo;
         this.cantidadEntradas = cantidadEntradas;
@@ -44,6 +46,7 @@ public class Compra {
         this.anf = anf;
         this.eve = eve;
         this.cli = cli;
+        this.pun = pun;
     }
 
     // GETTERS AND SETTERS
@@ -63,9 +66,7 @@ public class Compra {
         this.metodo = metodo;
     }
 
-    public int getCantidadEntradas() {
-        return cantidadEntradas;
-    }
+    public int getCantidadEntradas() {return cantidadEntradas; }
 
     public void setCantidadEntradass(int cantidadEntradas) {
         this.cantidadEntradas = cantidadEntradas;
@@ -150,5 +151,9 @@ public class Compra {
     public void setCli(Cliente cli) {
         this.cli = cli;
     }
+
+    public PuntosBonus getPun() { return pun; }
+
+    public void setPuntosBonus(PuntosBonus pun) { this.pun = pun;}
 
 }
