@@ -9,7 +9,6 @@ import java.sql.*;
 public class UsuarioDAOimpl implements UsuarioDAO {
     @Override
     public Usuario create(Usuario usuario){
-        int resultado = 0;
         String sql = "INSERT INTO Usuario(dni, nombre, apellido_paterno, apellido_materno, telefono, correo_electronico, contrasena, fecha_registro, edad, tipo_usuario, idDistrito, idRegion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = DBManager.getInstance().getConnection();
@@ -28,8 +27,8 @@ public class UsuarioDAOimpl implements UsuarioDAO {
             ps.setInt(11, usuario.getIdDistrito());
             ps.setInt(12, usuario.getIdRegion());
 
-            resultado = ps.executeUpdate();
-            if(resultado>0){
+            int affectedRows  = ps.executeUpdate();
+            if(affectedRows >0){
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         int newId = generatedKeys.getInt(1);
@@ -77,7 +76,6 @@ public class UsuarioDAOimpl implements UsuarioDAO {
     }
     @Override
     public Usuario update(Usuario usuario){
-        int resultado = 0;
         String sql = "UPDATE Usuario SET dni=?, nombre=?, apellido_paterno=?, apellido_materno=?, telefono=?, correo_electronico=?, contrasena=?, fecha_registro=?, edad=?, tipo_usuario=?, idDistrito=?, idRegion=? WHERE idUsuario=?";
 
         try (Connection con = DBManager.getInstance().getConnection();
@@ -97,7 +95,10 @@ public class UsuarioDAOimpl implements UsuarioDAO {
             ps.setInt(12, usuario.getIdRegion());
             ps.setInt(13, usuario.getIdUsuario());
 
-            ps.executeUpdate();
+            int affectedRows = ps.executeUpdate();
+            if(affectedRows==0){
+                throw new RuntimeException("No se encontro el Usuario");
+            }
             return usuario;
         } catch (SQLException e) {
             throw new RuntimeException("No se pudo actualizar el Usuario", e);
@@ -105,13 +106,15 @@ public class UsuarioDAOimpl implements UsuarioDAO {
     }
     @Override
     public void delete(Integer id){
-        int resultado = 0;
         String sql = "DELETE FROM Usuario WHERE idUsuario=?";
 
         try (Connection con = DBManager.getInstance().getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
-            ps.executeUpdate();
+            int affectedRows = ps.executeUpdate();
+            if(affectedRows==0){
+                throw new RuntimeException("No se encontro el Usuario");
+            }
         } catch (SQLException e) {
             throw new RuntimeException("No se pudo eliminar el Usuario", e);
         }
