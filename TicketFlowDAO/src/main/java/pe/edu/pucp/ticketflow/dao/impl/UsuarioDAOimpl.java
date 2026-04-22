@@ -5,6 +5,8 @@ import pe.edu.pucp.ticketflow.usuario.model.Usuario;
 import pe.edu.pucp.ticketflow.dao.manager.DBManager;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioDAOimpl implements UsuarioDAO {
     @Override
@@ -117,6 +119,38 @@ public class UsuarioDAOimpl implements UsuarioDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException("No se pudo eliminar el Usuario", e);
+        }
+    }
+
+    @Override
+    public List<Usuario> listAll(){
+        List<Usuario> listaUsuarios = new ArrayList<>();
+        String sql = "SELECT * FROM Usuario";
+        try(Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery(sql)){
+            while(rs.next()){
+                Usuario usuario = new Usuario();
+
+                usuario.setIdUsuario(rs.getInt("idUsuario"));
+                usuario.setDni(rs.getString("dni"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setApellidoPaterno(rs.getString("apellido_paterno"));
+                usuario.setApellidoMaterno(rs.getString("apellido_materno"));
+                usuario.setTelefono(rs.getString("telefono"));
+                usuario.setCorreoElectronico(rs.getString("correo_electronico"));
+                usuario.setContrasena(rs.getString("contrasena"));
+                usuario.setFechaRegistro(rs.getDate("fecha_registro"));
+                usuario.setEdad(rs.getInt("edad"));
+                usuario.setTipoUsuario(rs.getString("tipo_usuario"));
+                usuario.setIdDistrito(rs.getInt("idDistrito"));
+                usuario.setIdRegion(rs.getInt("idRegion"));
+
+                listaUsuarios.add(usuario);
+            }
+            return listaUsuarios;
+        } catch (SQLException e){
+            throw new RuntimeException("No se pudo listar Usuarios", e);
         }
     }
 }

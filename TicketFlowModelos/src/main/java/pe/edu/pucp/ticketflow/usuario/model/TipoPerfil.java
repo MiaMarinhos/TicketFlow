@@ -1,7 +1,7 @@
 package pe.edu.pucp.ticketflow.usuario.model;
 
 public enum TipoPerfil {
-    ADMINISTRADOR,
+    ADMIN,
     USUARIO,
     ANFITRION
 }

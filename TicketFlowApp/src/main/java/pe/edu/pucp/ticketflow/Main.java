@@ -181,11 +181,15 @@ public class Main {
                     + usuarioDAO.read(idUsu).getTelefono());
 
             // D) LIST
-            //List<Usuario> listaUsuarios = usuarioDAO.listAll();
-            //System.out.println("4. LIST: Total de usuarios en BD: " + listaUsuarios.size());
-            
+            List<Usuario> listaUsuarios = usuarioDAO.listAll();
+            System.out.println("4. LIST: Total de usuarios en BD: " + listaUsuarios.size());
+
 
             // ====================================================================
+            // ENTIDAD 4: ADMINISTRADOR
+            // ====================================================================
+
+            /*// ====================================================================
             // BLOQUE DELETE: ELIMINACIÓN EN CASCADA INVERSA
             // ====================================================================
             System.out.println("\n==================================================");
@@ -205,7 +209,7 @@ public class Main {
             System.out.println("- Región eliminada (ID: " + idReg + "). Resultado read: "
                     + (regionDAO.read(idReg) == null ? "null" : "Error"));
 
-            System.out.println("\n** TODAS LAS PRUEBAS FINALIZADAS CON ÉXITO **");
+            System.out.println("\n** TODAS LAS PRUEBAS FINALIZADAS CON ÉXITO **");*/
 
         } catch (Exception e) {
             System.err.println("\n[ERROR CRÍTICO] La prueba falló en la ejecución de la Base de Datos:");
