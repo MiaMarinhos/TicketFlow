@@ -42,7 +42,8 @@ public class Evento {
                   LocalTime horaFin, EstadoEvento estado, String ubicacion,
                   String nombreEstablecimiento, double precioEntrada,
                   String urlPoster, int capacidadEntradas, int entradasAdquiridas,
-                  double totalReal, double totalRecaudado, Anfitrion anfi,String descripcion){
+                  double totalReal, double totalRecaudado, Anfitrion anfi,String descripcion,
+                  Distrito distrito, EstadoPublicacion estadoPublicacion){
 
         this.idEvento=idEvento;
         this.nombreEvento=nombreEvento;

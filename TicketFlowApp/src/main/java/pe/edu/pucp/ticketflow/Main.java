@@ -153,7 +153,7 @@ public class Main {
             Evento evento = new Evento(0, "Jazz Night Live", Categoria.Concierto,
                     LocalDate.of(2024, 12, 24), "2 horas", LocalTime.of(20, 0), LocalTime.of(22, 0),
                     EstadoEvento.ACEPTADO, "Av. La Marina 123", "Teatro Municipal",
-                    150.00, "url_poster.jpg", 100, 0, 0.0, 0.0, anfitrion);
+                    150.00, "url_poster.jpg", 100, 0, 0.0, 0.0, anfitrion,"Evento de Jazz nocturno",distrito,EstadoPublicacion.Borrador);
             evento = eventoDAO.create(evento);
             System.out.println("  -> Evento creado con ID: " + evento.getIdEvento());
 
