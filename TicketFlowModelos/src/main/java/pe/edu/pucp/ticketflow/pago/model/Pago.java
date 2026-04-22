@@ -1,7 +1,6 @@
 package pe.edu.pucp.ticketflow.pago.model;
 
 import pe.edu.pucp.ticketflow.evento.model.Evento;
-import pe.edu.pucp.ticketflow.usuario.model.Anfitrion;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -9,27 +8,28 @@ import java.time.LocalTime;
 public class Pago {
     private int idPago;
     private LocalDate fechaPago;
-    private LocalTime horaPago;
-    private double cuentaPorPagar;
+    private LocalDate fechaLimitePago;
     private EstadoPago estado;
-    private Anfitrion anf;
+    private double totalAPagar;
+    private String comprobante;
     private Evento eve;
 
     // CONSTRUCTORES
     public Pago() {}
 
-    public Pago(int idPago, LocalDate fechaPago, LocalTime horaPago, double cuentaPorPagar,
-                EstadoPago estado, Anfitrion anf, Evento eve) {
+    public Pago(int idPago, LocalDate fechaPago, LocalDate fechaLimitePago,
+                double totalAPagar, EstadoPago estado, String comprobante, Evento eve) {
         this.idPago = idPago;
         this.fechaPago = fechaPago;
-        this.horaPago = horaPago;
-        this.cuentaPorPagar = cuentaPorPagar;
+        this.fechaLimitePago = fechaLimitePago;
+        this.totalAPagar = totalAPagar;
         this.estado = estado;
-        this.anf = anf;
+        this.comprobante = comprobante;
         this.eve = eve;
     }
 
     // GETTERS AND SETTERS
+
     public int getIdPago() {
         return idPago;
     }
@@ -46,20 +46,12 @@ public class Pago {
         this.fechaPago = fechaPago;
     }
 
-    public LocalTime getHoraPago() {
-        return horaPago;
+    public LocalDate getFechaLimitePago() {
+        return fechaLimitePago;
     }
 
-    public void setHoraPago(LocalTime horaPago) {
-        this.horaPago = horaPago;
-    }
-
-    public double getCuentaPorPagar() {
-        return cuentaPorPagar;
-    }
-
-    public void setCuentaPorPagar(double cuentaPorPagar) {
-        this.cuentaPorPagar = cuentaPorPagar;
+    public void setFechaLimitePago(LocalDate fechaLimitePago) {
+        this.fechaLimitePago = fechaLimitePago;
     }
 
     public EstadoPago getEstado() {
@@ -70,12 +62,20 @@ public class Pago {
         this.estado = estado;
     }
 
-    public Anfitrion getAnf() {
-        return anf;
+    public double getTotalAPagar() {
+        return totalAPagar;
     }
 
-    public void setAnf(Anfitrion anf) {
-        this.anf = anf;
+    public void setTotalAPagar(double totalAPagar) {
+        this.totalAPagar = totalAPagar;
+    }
+
+    public String getComprobante() {
+        return comprobante;
+    }
+
+    public void setComprobante(String comprobante) {
+        this.comprobante = comprobante;
     }
 
     public Evento getEve() {
