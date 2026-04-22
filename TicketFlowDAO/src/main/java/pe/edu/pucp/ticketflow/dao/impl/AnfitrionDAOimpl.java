@@ -23,7 +23,11 @@ public class AnfitrionDAOimpl implements AnfitrionDAO {
             while(rs.next()){
                 Anfitrion anfitrion = new Anfitrion();
                 anfitrion.setIdUsuario(rs.getInt("idAdministrador"));
-                anfitrion.setCodigoAdmin(rs.getInt("codigo"));
+                anfitrion.setIdUsuario(rs.getInt("idAnfitrion"));
+                anfitrion.setRazonSocial(rs.getString("razon_social"));
+                anfitrion.setRuc(rs.getString("ruc"));
+                anfitrion.setCuentaBancaria(rs.getString("cuenta_bancaria"));
+                anfitrion.setBank(Enum.valueOf(pe.edu.pucp.ticketflow.usuario.model.Banco.class, rs.getString("banco")));
 
                 listaAnfitriones.add(anfitrion);
             }
