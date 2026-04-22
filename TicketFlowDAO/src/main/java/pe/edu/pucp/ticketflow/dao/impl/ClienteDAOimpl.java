@@ -9,10 +9,29 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ClienteDAOimpl implements ClienteDAO {
-
+    @Override
+    public List<Cliente> listAll(){
+        List<Cliente> listaClientes = new ArrayList<>();
+        String sql = "SELECT * FROM Cliente";
+        try(Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()){
+            while(rs.next()){
+                Cliente cliente = new Cliente();
+                cliente.setIdUsuario(rs.getInt("idCliente"));
+                cliente.setPuntosBonus(rs.getInt("puntos_bonus"));
+                listaClientes.add(cliente);
+            }
+            return listaClientes;
+        } catch (SQLException e){
+            throw new RuntimeException("No se pudo listar Clientes", e);
+        }
+    }
     @Override
     public Cliente create(Cliente cliente) {
         String sql = "INSERT INTO Cliente(idCliente, puntos_bonus) VALUES (?, ?)";

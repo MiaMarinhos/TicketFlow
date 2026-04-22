@@ -8,9 +8,29 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdministradorDAOimpl implements AdministradorDAO {
+    @Override
+    public List<Administrador> listAll(){
+        List<Administrador> listaAdministradores = new ArrayList<>();
+        String sql = "SELECT * FROM Administrador";
+        try(Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()){
+            while(rs.next()){
+                Administrador administrador = new Administrador();
+                administrador.setIdUsuario(rs.getInt("idAdministrador"));
+                administrador.setCodigoAdmin(rs.getInt("codigo"));
 
+                listaAdministradores.add(administrador);
+            }
+            return listaAdministradores;
+        } catch (SQLException e){
+            throw new RuntimeException("No se pudo listar Administradores", e);
+        }
+    }
     @Override
     public Administrador create(Administrador administrador) {
         String sql = "INSERT INTO Administrador(idAdministrador, codigo) VALUES (?, ?)";

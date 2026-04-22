@@ -19,10 +19,10 @@ public class CompraDAOimpl implements CompraDAO {
     @Override
     public List<Compra> listAll(){
         List<Compra> listaCompras = new ArrayList<>();
-        String sql = "<script SQL>";
+        String sql = "SELECT * FROM compras";
         try(Connection con = DBManager.getInstance().getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery(sql)){
+            ResultSet rs = ps.executeQuery()){
             while(rs.next()){
                 Compra compra = new Compra();
                 compra.setIdCompra(rs.getInt("idCompras"));
