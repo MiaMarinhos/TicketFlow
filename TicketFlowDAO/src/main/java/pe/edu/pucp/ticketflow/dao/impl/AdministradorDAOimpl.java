@@ -22,7 +22,7 @@ public class AdministradorDAOimpl implements AdministradorDAO {
             while(rs.next()){
                 Administrador administrador = new Administrador();
                 administrador.setIdUsuario(rs.getInt("idAdministrador"));
-                administrador.setCodigoAdmin(rs.getInt("codigo"));
+                administrador.setCodigoAdmin(rs.getString("codigo"));
 
                 listaAdministradores.add(administrador);
             }
@@ -65,7 +65,7 @@ public class AdministradorDAOimpl implements AdministradorDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     administrador.setIdUsuario(rs.getInt("idAdministrador"));
-                    administrador.setCodigoAdmin(Integer.parseInt(rs.getString("codigo")));
+                    administrador.setCodigoAdmin(rs.getString("codigo"));
                     return administrador;
                 }
             }

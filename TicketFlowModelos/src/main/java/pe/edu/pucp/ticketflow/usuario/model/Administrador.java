@@ -5,14 +5,14 @@ import java.time.LocalDate;
 
 
 public class Administrador extends Usuario{
-    private int codigoAdmin;
+    private String codigoAdmin;
 
     //CONSTRUCTORES
     public Administrador(){}
 
     public Administrador(int idUsuario, String nombre, String apellidoPaterno,String apellidoMaterno,
                          String telefono, String correoElectronico, String contrasena, Date fechaRegistro, int edad,
-                         String tipoUsuario, String dni, int idDistrito, int idRegion, int codigoAdmin){
+                         String tipoUsuario, String dni, int idDistrito, int idRegion, String codigoAdmin){
         super(idUsuario,  nombre,  apellidoPaterno, apellidoMaterno, telefono,  correoElectronico, contrasena, fechaRegistro,
                 edad, tipoUsuario, dni, idDistrito, idRegion);
         this.codigoAdmin = codigoAdmin;
@@ -20,10 +20,10 @@ public class Administrador extends Usuario{
 
     //GETTERS AND SETTERS
 
-    public int getCodigoAdmin(){
+    public String getCodigoAdmin(){
         return this.codigoAdmin;
     }
-    public void setCodigoAdmin(int codigoAdmin){
+    public void setCodigoAdmin(String codigoAdmin){
         this.codigoAdmin=codigoAdmin;
     }
 }
