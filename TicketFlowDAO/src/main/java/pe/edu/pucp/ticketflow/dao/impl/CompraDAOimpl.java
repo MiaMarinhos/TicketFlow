@@ -11,7 +11,6 @@ import pe.edu.pucp.ticketflow.usuario.model.Cliente;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.LocalDate;
 
 
 public class CompraDAOimpl implements CompraDAO {
