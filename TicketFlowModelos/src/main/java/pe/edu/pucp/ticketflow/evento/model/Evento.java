@@ -1,5 +1,7 @@
 package pe.edu.pucp.ticketflow.evento.model;
 
+import pe.edu.pucp.ticketflow.distrito.model.Distrito;
+import pe.edu.pucp.ticketflow.region.model.Region;
 import pe.edu.pucp.ticketflow.usuario.model.Anfitrion;
 
 import java.time.LocalDate;
@@ -28,6 +30,10 @@ public class Evento {
 
     private Anfitrion anfi;
 
+    private String descripcion;
+
+    private Distrito distrito;
+    private Region region;
     //CONSTRUCTORES
 
     public Evento(){}
@@ -37,7 +43,7 @@ public class Evento {
                   LocalTime horaFin, EstadoEvento estado, String ubicacion,
                   String nombreEstablecimiento, double precioEntrada,
                   String urlPoster, int capacidadEntradas, int entradasAdquiridas,
-                  double totalReal, double totalRecaudado, Anfitrion anfi){
+                  double totalReal, double totalRecaudado, Anfitrion anfi,String descripcion){
 
         this.idEvento=idEvento;
         this.nombreEvento=nombreEvento;
@@ -56,7 +62,7 @@ public class Evento {
         this.totalReal = totalReal;
         this.totalRecaudado = totalRecaudado;
         this.anfi = anfi;
-
+        this.descripcion=descripcion;
     }
 
     //GETTERS AND SETTERS
@@ -180,7 +186,14 @@ public class Evento {
         this.anfi = anfi;
     }
 
+    public String getDescripcion(){return this.descripcion;}
+    public void setDescripcion(String descripcion){this.descripcion=descripcion}
 
+    public Distrito getDiscrito(){return this.distrito;}
+    public void setDistrito(Distrito distrito){this.distrito=distrito;}
+
+    public Region getRegion(){return this.region;}
+    public void setRegion(Region region){this.region=region;}
     //METODOS
 
 }

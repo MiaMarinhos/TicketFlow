@@ -26,24 +26,25 @@ public class EventoDAOimpl implements EventoDAO {
             //TODO
             ps.setInt(1, evento.getIdEvento());
             ps.setString(2,evento.getNombreEvento());
-            ps.setString(3,evento.getCat().name());
-            ps.setDate(4, valueOf(evento.getDuracion()));
-            ps.setTime(5, java.sql.Time.valueOf(evento.getHoraInicio()));
-            ps.setTime(6,java.sql.Time.valueOf(evento.getHoraFin()));
-            ps.setString(7, evento.getEstado().name());
-            ps.setString(8, evento.getUbicacion());
-            ps.setString(9,evento.getNombreEstablecimiento());
-            ps.setDouble(10,evento.getPrecioEntrada());
-            
-            ps.setString(11, evento.getUrlPoster());
-
-            ps.setInt(12,evento.getCapacidadEntradas());
-            ps.setInt(13,evento.getEntradasAdquiridas());
-
-            ps.setDouble(14,evento.getTotalReal());
-            ps.setDouble(15, evento.getTotalRecaudado());
-
-            ps.setInt(16,evento.getAnfi().getIdUsuario());
+            ps.setString(3,evento.getDescripcion());
+            ps.setInt(4,evento.getCapacidadEntradas());
+            ps.setString(5,evento.getCat().name());
+            ps.setDate(6, valueOf(evento.getFecha()));
+            ps.setTime(7, java.sql.Time.valueOf(evento.getHoraInicio()));
+            ps.setTime(8,java.sql.Time.valueOf(evento.getHoraFin()));
+            ps.setString(9, evento.getUbicacion());
+            ps.setString(10,evento.getNombreEstablecimiento());
+            ps.setString(11, evento.getEstado().name());
+            ps.setString(12,evento.getEstado().name());
+            ps.setString(13, evento.getUrlPoster());
+            ps.setDouble(14,evento.getPrecioEntrada());
+            ps.setInt(15,evento.getEntradasAdquiridas());
+            ps.setInt(16,evento.getCapacidadEntradas()-evento.getEntradasAdquiridas());
+            ps.setDouble(17, evento.getTotalRecaudado());
+            ps.setDouble(18,evento.getTotalReal());
+            ps.setInt(19,evento.getRegion().getIdRegion());
+            ps.setInt(20,evento.getDiscrito().getIdDistrito());
+            ps.setInt(21,evento.getAnfi().getIdUsuario());
 
             int resultado = ps.executeUpdate();
             if(resultado>0){
