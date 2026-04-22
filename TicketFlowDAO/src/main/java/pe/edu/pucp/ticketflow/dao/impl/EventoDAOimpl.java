@@ -11,17 +11,12 @@ import pe.edu.pucp.ticketflow.region.model.Region;
 import pe.edu.pucp.ticketflow.usuario.model.Anfitrion;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.sql.Date.valueOf;
 
 public class EventoDAOimpl implements EventoDAO {
-    private List<Evento> eventos;
-
-    @Override
-    public List<Evento> ListAll(){
-        return eventos;
-    }
 
     public EventoDAOimpl(){
 
@@ -29,65 +24,67 @@ public class EventoDAOimpl implements EventoDAO {
 
     @Override
     public Evento create(Evento evento) {
-        String sql = "<sql script>";
+        String sql = "INSERT INTO Evento(idEvento, titulo, descripcion, capacidad_entradas, categoria, fecha, " +
+                "hora_inicio, hora_fin, ubicacion, nombre_establecimiento, estado_publicacion, estado_evento, img, precio, " +
+                "entradas_adquiridas, entradas_restantes, total, total_real, idRegion, idDistrito, idAnfitrion) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try(Connection con = DBManager.getInstance().getConnection();
-            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-            //
+        try (Connection con = DBManager.getInstance().getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, evento.getIdEvento());
-            ps.setString(2,evento.getNombreEvento());
-            ps.setString(3,evento.getDescripcion());
-            ps.setInt(4,evento.getCapacidadEntradas());
-            ps.setString(5,evento.getCat().name());
-            ps.setDate(6, valueOf(evento.getFecha()));
+            ps.setString(2, evento.getNombreEvento());
+            ps.setString(3, evento.getDescripcion());
+            ps.setInt(4, evento.getCapacidadEntradas());
+            ps.setString(5, evento.getCat().name());
+            ps.setDate(6, java.sql.Date.valueOf(evento.getFecha()));
             ps.setTime(7, java.sql.Time.valueOf(evento.getHoraInicio()));
-            ps.setTime(8,java.sql.Time.valueOf(evento.getHoraFin()));
+            ps.setTime(8, java.sql.Time.valueOf(evento.getHoraFin()));
             ps.setString(9, evento.getUbicacion());
-            ps.setString(10,evento.getNombreEstablecimiento());
+            ps.setString(10, evento.getNombreEstablecimiento());
             ps.setString(11, evento.getEstadoPublicacion().name());
-            ps.setString(12,evento.getEstado().name());
+            ps.setString(12, evento.getEstado().name());
             ps.setString(13, evento.getUrlPoster());
-            ps.setDouble(14,evento.getPrecioEntrada());
-            ps.setInt(15,evento.getEntradasAdquiridas());
-            ps.setInt(16,evento.getCapacidadEntradas()-evento.getEntradasAdquiridas());
+            ps.setDouble(14, evento.getPrecioEntrada());
+            ps.setInt(15, evento.getEntradasAdquiridas());
+            ps.setInt(16, evento.getCapacidadEntradas() - evento.getEntradasAdquiridas());
             ps.setDouble(17, evento.getTotalRecaudado());
-            ps.setDouble(18,evento.getTotalReal());
-            ps.setInt(19,evento.getDiscrito().getRegion().getIdRegion());
-            ps.setInt(20,evento.getDiscrito().getIdDistrito());
-            ps.setInt(21,evento.getAnfi().getIdUsuario());
+            ps.setDouble(18, evento.getTotalReal());
+            ps.setInt(19, evento.getDiscrito().getRegion().getIdRegion());
+            ps.setInt(20, evento.getDiscrito().getIdDistrito());
+            ps.setInt(21, evento.getAnfi().getIdUsuario());
 
             int resultado = ps.executeUpdate();
-            if(resultado>0){
-                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        int newId = generatedKeys.getInt(1);
-                        evento.setIdEvento(newId);
-                    }
-                }
+
+            if (resultado == 0) {
+                throw new RuntimeException("No se pudo crear el evento");
             }
+
             return evento;
-        } catch (SQLException e){
-            throw new RuntimeException("No se puedo crear el evento", e);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("No se pudo crear el evento", e);
         }
     }
 
     @Override
     public Evento read(Integer id) {
-        Evento evento= new Evento();
-        String sql = "<sql script>";
+        Evento evento = new Evento();
+        String sql = "SELECT * FROM Evento WHERE idEvento=?";
 
-        try(Connection con = DBManager.getInstance().getConnection();
-            PreparedStatement ps = con.prepareStatement(sql)){
+        try (Connection con = DBManager.getInstance().getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()){
-                if(rs.next()){
-                    //TODO
-                    evento.setIdEvento(id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    evento.setIdEvento(rs.getInt("idEvento"));
                     evento.setNombreEvento(rs.getString("titulo"));
                     evento.setDescripcion(rs.getString("descripcion"));
                     evento.setCapacidadEntradas(rs.getInt("capacidad_entradas"));
                     evento.setCat(Categoria.valueOf(rs.getString("categoria")));
-                    evento.setFecha((rs.getDate("fecha")).toLocalDate());
+                    evento.setFecha(rs.getDate("fecha").toLocalDate());
                     evento.setHoraInicio(rs.getTime("hora_inicio").toLocalTime());
                     evento.setHoraFin(rs.getTime("hora_fin").toLocalTime());
                     evento.setUbicacion(rs.getString("ubicacion"));
@@ -97,29 +94,31 @@ public class EventoDAOimpl implements EventoDAO {
                     evento.setUrlPoster(rs.getString("img"));
                     evento.setPrecioEntrada(rs.getDouble("precio"));
                     evento.setEntradasAdquiridas(rs.getInt("entradas_adquiridas"));
-                    //entradas restantes es total - adquiridas
                     evento.setTotalRecaudado(rs.getDouble("total"));
                     evento.setTotalReal(rs.getDouble("total_real"));
 
-                    Region AuxRegion=new Region();
-                    AuxRegion.setIdRegion(rs.getInt("idRegion"));
+                    Region auxRegion = new Region();
+                    auxRegion.setIdRegion(rs.getInt("idRegion"));
 
-                    Distrito AuxDistrito=new Distrito();
-                    AuxDistrito.setRegion(AuxRegion);
-                    AuxDistrito.setIdDistrito(rs.getInt("idDistrito"));
+                    Distrito auxDistrito = new Distrito();
+                    auxDistrito.setIdDistrito(rs.getInt("idDistrito"));
+                    auxDistrito.setRegion(auxRegion);
 
-                    Anfitrion AuxAnfitrion=new Anfitrion();
-                    AuxAnfitrion.setIdUsuario(rs.getInt("idAnfitrion"));
+                    Anfitrion auxAnfitrion = new Anfitrion();
+                    auxAnfitrion.setIdUsuario(rs.getInt("idAnfitrion"));
 
-                    evento.setAnfi(AuxAnfitrion);
-                    evento.setDistrito(AuxDistrito);
+                    evento.setDistrito(auxDistrito);
+                    evento.setAnfi(auxAnfitrion);
+
                     return evento;
                 }
             }
-        } catch (SQLException e){
-            //throw new RuntimeException("No se pudo leer el Administrador", e);
+        } catch (SQLException e) {
+            throw new RuntimeException("No se pudo leer el Evento", e);
         }
-        return null;    }
+
+        return null;
+    }
 
     @Override
     public Evento update(Evento evento) {
@@ -151,26 +150,80 @@ public class EventoDAOimpl implements EventoDAO {
 
             int affectedRows = ps.executeUpdate();
             if(affectedRows==0){
-                throw new RuntimeException("No se encontro el Distrito");
+                throw new RuntimeException("No se encontro el Evento");
             }
             return evento;
         } catch (SQLException e){
-            throw new RuntimeException("No se pudo actualizar el Distrito", e);
+            throw new RuntimeException("No se pudo actualizar el Evento", e);
         }
     }
 
     @Override
     public void delete(Integer id) {
-        String sql = "DELETE FROM compras WHERE idCompras=?";
+        String sql = "DELETE FROM Evento WHERE idEvento=?";
+
         try (Connection con = DBManager.getInstance().getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)){
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, id);
+
             int affectedRows = ps.executeUpdate();
-            if(affectedRows==0){
-                throw new RuntimeException("No se encontro la Compra");
+
+            if (affectedRows == 0) {
+                throw new RuntimeException("No se encontró el Evento");
             }
-        }catch (SQLException e){
-            throw new RuntimeException("No se pudo eliminar la Compra", e);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("No se pudo eliminar el Evento", e);
+        }
+    }
+
+    @Override
+    public List<Evento> listAll(){
+        List<Evento> listaEventos = new ArrayList<>();
+        String sql = "SELECT * FROM Evento";
+        try(Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()){
+            while(rs.next()){
+                Evento evento = new Evento();
+                evento.setIdEvento(rs.getInt("idEvento"));
+                evento.setNombreEvento(rs.getString("titulo"));
+                evento.setDescripcion(rs.getString("descripcion"));
+                evento.setCapacidadEntradas(rs.getInt("capacidad_entradas"));
+                evento.setCat(Categoria.valueOf(rs.getString("categoria")));
+                evento.setFecha((rs.getDate("fecha")).toLocalDate());
+                evento.setHoraInicio(rs.getTime("hora_inicio").toLocalTime());
+                evento.setHoraFin(rs.getTime("hora_fin").toLocalTime());
+                evento.setUbicacion(rs.getString("ubicacion"));
+                evento.setNombreEstablecimiento(rs.getString("nombre_establecimiento"));
+                evento.setEstadoPublicacion(EstadoPublicacion.valueOf(rs.getString("estado_publicacion")));
+                evento.setEstado(EstadoEvento.valueOf(rs.getString("estado_evento")));
+                evento.setUrlPoster(rs.getString("img"));
+                evento.setPrecioEntrada(rs.getDouble("precio"));
+                evento.setEntradasAdquiridas(rs.getInt("entradas_adquiridas"));
+                //entradas restantes es total - adquiridas
+                evento.setTotalRecaudado(rs.getDouble("total"));
+                evento.setTotalReal(rs.getDouble("total_real"));
+
+                Region AuxRegion=new Region();
+                AuxRegion.setIdRegion(rs.getInt("idRegion"));
+
+                Distrito AuxDistrito=new Distrito();
+                AuxDistrito.setRegion(AuxRegion);
+                AuxDistrito.setIdDistrito(rs.getInt("idDistrito"));
+
+                Anfitrion AuxAnfitrion=new Anfitrion();
+                AuxAnfitrion.setIdUsuario(rs.getInt("idAnfitrion"));
+
+                evento.setAnfi(AuxAnfitrion);
+                evento.setDistrito(AuxDistrito);
+
+                listaEventos.add(evento);
+            }
+            return listaEventos;
+        } catch (SQLException e){
+            throw new RuntimeException("No se pudo listar Eventos", e);
         }
     }
 
