@@ -216,18 +216,29 @@ public class Main {
 
             // B) READ
             Evento eveLeido = eventoDAO.read(idEve);
-            System.out.println("2. READ: Evento leído de BD: " + eveLeido.getNombreEvento() +
-                    " (Organizador: " + eveLeido.getAnfi().getNombre() +
-                    ", Distrito: " + eveLeido.getDiscrito().getNombre() + ")");
+            if (eveLeido != null) {
+                System.out.println("2. READ: Datos recuperados correctamente.");
+                // Demostramos navegabilidad: Evento -> Anfitrión -> Nombre
+                System.out.println("     - Organizador: " + eveLeido.getAnfi().getNombre());
+                // Demostramos navegabilidad: Evento -> Distrito -> Región -> Nombre
+                System.out.println("     - Ubicación: " + eveLeido.getDiscrito().getNombre() +
+                        " (" + eveLeido.getDiscrito().getRegion().getNombre() + ")");
+            }
 
             // C) UPDATE
-            eveLeido.setPrecioEntrada(200.00); // Subimos el precio
+            double nuevoPrecio = 299.99;
+            eveLeido.setPrecioEntrada(nuevoPrecio);
             eventoDAO.update(eveLeido);
-            System.out.println("3. UPDATE: Precio modificado a: S/ " + eventoDAO.read(idEve).getPrecioEntrada());
+            Evento eveActualizado = eventoDAO.read(idEve);
+            if (eveActualizado.getPrecioEntrada() == nuevoPrecio) {
+                System.out.println("3. UPDATE: Precio actualizado y verificado en BD: S/ " + nuevoPrecio);
+            }
 
             // D) LIST
             List<Evento> listaEventos = eventoDAO.listAll();
             System.out.println("4. LIST: Total de Eventos en BD: " + listaEventos.size());
+
+
 
             // ====================================================================
             // BLOQUE DELETE: ELIMINACIÓN EN CASCADA INVERSA
