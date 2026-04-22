@@ -220,13 +220,19 @@ public class Main {
             System.out.println("==================================================");
             System.out.println("Borrando de hijo a padre para no romper llaves foráneas...");
 
+            usuarioDAO.delete(idUsu);
+            System.out.println("- Usuario eliminado (ID: " + idUsu + "). Resultado read: "
+                    + (usuarioDAO.read(idUsu) == null ? "null" : "Error"));
+
             distritoDAO.delete(idDis);
-            System.out.println("- Distrito eliminado (ID: " + idDis + "). Resultado read: " + (distritoDAO.read(idDis) == null ? "null" : "Error"));
+            System.out.println("- Distrito eliminado (ID: " + idDis + "). Resultado read: "
+                    + (distritoDAO.read(idDis) == null ? "null" : "Error"));
 
             regionDAO.delete(idReg);
-            System.out.println("- Región eliminada (ID: " + idReg + "). Resultado read: " + (regionDAO.read(idReg) == null ? "null" : "Error"));
+            System.out.println("- Región eliminada (ID: " + idReg + "). Resultado read: "
+                    + (regionDAO.read(idReg) == null ? "null" : "Error"));
 
-            System.out.println("\n*** TODAS LAS PRUEBAS FINALIZADAS CON ÉXITO ***");
+            System.out.println("\n** TODAS LAS PRUEBAS FINALIZADAS CON ÉXITO **");
 
         } catch (Exception e) {
             System.err.println("\n[ERROR CRÍTICO] La prueba falló en la ejecución de la Base de Datos:");
