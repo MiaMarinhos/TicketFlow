@@ -100,7 +100,7 @@ public class DistritoDAOimpl implements DistritoDAO {
         String sql = "SELECT * FROM Distrito";
         try(Connection con = DBManager.getInstance().getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery(sql)){
+            ResultSet rs = ps.executeQuery()){
             while(rs.next()){
 
                 Distrito distrito = new Distrito();
