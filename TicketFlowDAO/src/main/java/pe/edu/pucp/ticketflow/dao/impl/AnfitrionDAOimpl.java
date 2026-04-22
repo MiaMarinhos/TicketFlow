@@ -8,8 +8,30 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnfitrionDAOimpl implements AnfitrionDAO {
+
+    @Override
+    public List<Anfitrion> listAll(){
+        List<Anfitrion> listaAnfitriones = new ArrayList<>();
+        String sql = "SELECT * FROM Anfitriones";
+        try(Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()){
+            while(rs.next()){
+                Anfitrion anfitrion = new Anfitrion();
+                anfitrion.setIdUsuario(rs.getInt("idAdministrador"));
+                anfitrion.setCodigoAdmin(rs.getInt("codigo"));
+
+                listaAnfitriones.add(anfitrion);
+            }
+            return listaAnfitriones;
+        } catch (SQLException e){
+            throw new RuntimeException("No se pudo listar Anfitriones", e);
+        }
+    }
 
     @Override
     public Anfitrion create(Anfitrion anfitrion) {
