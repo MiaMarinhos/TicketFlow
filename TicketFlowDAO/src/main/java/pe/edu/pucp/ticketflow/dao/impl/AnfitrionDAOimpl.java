@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnfitrionDAOimpl implements AnfitrionDAO {
-
     @Override
     public List<Anfitrion> listAll(){
         List<Anfitrion> listaAnfitriones = new ArrayList<>();
@@ -22,7 +21,7 @@ public class AnfitrionDAOimpl implements AnfitrionDAO {
             ResultSet rs = ps.executeQuery()){
             while(rs.next()){
                 Anfitrion anfitrion = new Anfitrion();
-                anfitrion.setIdUsuario(rs.getInt("idAdministrador"));
+                anfitrion.setIdUsuario(rs.getInt("idAnfitrion"));
                 anfitrion.setCodigoAdmin(rs.getInt("codigo"));
 
                 listaAnfitriones.add(anfitrion);
