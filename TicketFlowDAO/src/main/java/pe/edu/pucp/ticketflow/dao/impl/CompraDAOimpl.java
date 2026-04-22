@@ -11,9 +11,48 @@ import pe.edu.pucp.ticketflow.usuario.model.Cliente;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CompraDAOimpl implements CompraDAO {
+    @Override
+    public List<Compra> listAll(){
+        List<Compra> listaCompras = new ArrayList<>();
+        String sql = "<script SQL>";
+        try(Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery(sql)){
+            while(rs.next()){
+                Compra compra = new Compra();
+                compra.setIdCompra(rs.getInt("idCompras"));
+                compra.setCantidadEntradas(rs.getInt("entradas_compradas"));
+                compra.setFechaCompra(rs.getDate("fecha_compra").toLocalDate());
+                compra.setMetodo(MetodoPago.valueOf(rs.getString("metodo_pago")));
+                compra.setHoraCompra(rs.getTime("hora_compra").toLocalTime());
+                compra.setEstado(EstadoCompra.valueOf(rs.getString("estado")));
+                compra.setMontoParcial(rs.getDouble("monto_parcial"));
+                compra.setMontoTotal(rs.getDouble("monto_total"));
+
+                PuntosBonus puntosBonus = new PuntosBonus();
+                puntosBonus.setIdPuntosBonus(rs.getInt("idPuntos_bonus"));
+                compra.setPuntosBonus(puntosBonus);
+
+                Cliente cliente = new Cliente();
+                cliente.setIdUsuario(rs.getInt("idCliente"));
+                compra.setCli(cliente);
+
+                Evento evento = new Evento();
+                evento.setIdEvento(rs.getInt("idEvento"));
+                compra.setEve(evento);
+
+                listaCompras.add(compra);
+            }
+            return listaCompras;
+        } catch (SQLException e){
+            throw new RuntimeException("No se pudo listar Compras", e);
+        }
+    }
     @Override
     public Compra create(Compra compra){
         String sql = "INSERT INTO compras(entradas_compradas, fecha_compra, metodo_pago, hora_compra, estado, monto_parcial, monto_total, idPuntos_bonus, idCliente, idEvento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
