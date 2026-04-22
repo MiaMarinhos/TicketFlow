@@ -150,7 +150,7 @@ public class Main {
             // A) CREATE
             Administrador admin = new Administrador(0, "Luis", "Soto", "Gomez", "999888777",
                     "luis.soto@ticketflow.com", "pass123", fechaHoy, 35,
-                    TipoPerfil.ADMINISTRADOR.name(), "10101010", disLeido.getIdDistrito(), regLeida.getIdRegion(), 5001);
+                    TipoPerfil.ADMINISTRADOR.name(), "10101010", disLeido.getIdDistrito(), regLeida.getIdRegion(), "5001");
             admin = adminDAO.create(admin);
             int idAdmin = admin.getIdUsuario();
             System.out.println("1. INSERT: Admin creado con ID: " + idAdmin);
