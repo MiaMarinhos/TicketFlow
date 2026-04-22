@@ -6,6 +6,8 @@ import pe.edu.pucp.ticketflow.distrito.model.Distrito;
 import pe.edu.pucp.ticketflow.region.model.Region;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DistritoDAOimpl implements DistritoDAO {
 
@@ -89,6 +91,32 @@ public class DistritoDAOimpl implements DistritoDAO {
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Distrito> listAll(){
+        List<Distrito> listaDistrito = new ArrayList<>();
+        String sql = "SELECT * FROM Distrito";
+        try(Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery(sql)){
+            while(rs.next()){
+
+                Distrito distrito = new Distrito();
+                distrito.setIdDistrito(rs.getInt("idDistrito"));
+                distrito.setNombre(rs.getString("nombre"));
+
+                //Construimos Distrito
+                Region r = new Region();
+                r.setIdRegion(rs.getInt("idRegion"));
+                distrito.setRegion(r);
+
+                listaDistrito.add(distrito);
+            }
+            return listaDistrito;
+        } catch (SQLException e){
+            throw new RuntimeException("No se pudo listar Distrito", e);
         }
     }
 }

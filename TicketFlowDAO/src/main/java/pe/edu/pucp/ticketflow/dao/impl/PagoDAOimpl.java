@@ -7,6 +7,8 @@ import pe.edu.pucp.ticketflow.pago.model.EstadoPago;
 import pe.edu.pucp.ticketflow.pago.model.Pago;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PagoDAOimpl implements PagoDAO {
     @Override
@@ -44,7 +46,7 @@ public class PagoDAOimpl implements PagoDAO {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()){
                 if(rs.next()){
-                    pago.setIdPago(rs.getInt("idPago"));
+                    pago.setIdPago(rs.getInt("idPagos"));
                     pago.setFechaPago(rs.getDate("fecha_pago").toLocalDate());
                     pago.setFechaLimitePago(rs.getDate("fecha_limite_pago").toLocalDate());
                     pago.setEstado(EstadoPago.valueOf(rs.getString("estado")));
@@ -102,4 +104,32 @@ public class PagoDAOimpl implements PagoDAO {
         }
     }
 
+    @Override
+    public List<Pago> listAll(){
+        List<Pago> listaPagos = new ArrayList<>();
+        String sql = "SELECT * FROM Pagos";
+        try(Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()){
+            while(rs.next()){
+                Pago pago = new Pago();
+                pago.setIdPago(rs.getInt("idPagos"));
+                pago.setFechaPago(rs.getDate("fecha_pago").toLocalDate());
+                pago.setFechaLimitePago(rs.getDate("fecha_limite_pago").toLocalDate());
+                pago.setEstado(EstadoPago.valueOf(rs.getString("estado")));
+                pago.setTotalAPagar(rs.getDouble("total_a_pagar"));
+                pago.setComprobante(rs.getString("comprobante"));
+
+                //Construimos Evento
+                Evento eve = new Evento();
+                eve.setIdEvento(rs.getInt("idEvento"));
+                pago.setEve(eve);
+
+                listaPagos.add(pago);
+            }
+            return listaPagos;
+        } catch (SQLException e){
+            throw new RuntimeException("No se pudo listar Pagos", e);
+        }
+    }
 }

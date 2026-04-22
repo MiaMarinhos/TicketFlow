@@ -5,6 +5,8 @@ import pe.edu.pucp.ticketflow.dao.manager.DBManager;
 import pe.edu.pucp.ticketflow.region.model.Region;
 
 import java.sql.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class RegionDAOimpl implements RegionDAO {
     @Override
@@ -81,6 +83,28 @@ public class RegionDAOimpl implements RegionDAO {
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Region> listAll(){
+        List<Region> listaRegion = new ArrayList<>();
+        String sql = "SELECT * FROM Region";
+        try(Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()){
+            while(rs.next()){
+
+                Region region = new Region();
+                region.setIdRegion(rs.getInt("idRegion"));
+                region.setNombre(rs.getString("nombre"));
+
+
+                listaRegion.add(region);
+            }
+            return listaRegion;
+        } catch (SQLException e){
+            throw new RuntimeException("No se pudo listar Region", e);
         }
     }
 }
