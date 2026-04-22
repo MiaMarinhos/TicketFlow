@@ -24,6 +24,7 @@ import pe.edu.pucp.ticketflow.dao.impl.RegionDAOimpl;
 import pe.edu.pucp.ticketflow.dao.impl.SolicitudDAOimpl;
 import pe.edu.pucp.ticketflow.dao.impl.UsuarioDAOimpl;
 import pe.edu.pucp.ticketflow.region.model.Region;
+import pe.edu.pucp.ticketflow.usuario.model.Administrador;
 
 
 public class Main {
@@ -144,6 +145,7 @@ public class Main {
             System.err.println("\n[ERROR] Fallo en la prueba de integración:");
             e.printStackTrace();
         }
+
 
     }
 }

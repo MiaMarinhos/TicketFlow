@@ -73,7 +73,7 @@ public class EventoDAOimpl implements EventoDAO {
                 if(rs.next()){
                     //TODO
 
-                    return administrador;
+                    //return administrador;
                 }
             }
         } catch (SQLException e){
