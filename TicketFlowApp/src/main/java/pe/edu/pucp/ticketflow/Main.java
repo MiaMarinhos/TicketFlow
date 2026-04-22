@@ -229,15 +229,6 @@ public class Main {
             List<Evento> listaEventos = eventoDAO.listAll();
             System.out.println("4. LIST: Total de Eventos en BD: " + listaEventos.size());
 
-
-            ---
-
-
-// D) LIST
-            List<Evento> listaEventos = eventoDAO.listAll();
-            System.out.println("4. LIST: Total de Eventos en BD: " + listaEventos.size());
-            ----
-
             // ====================================================================
             // BLOQUE DELETE: ELIMINACIÓN EN CASCADA INVERSA
             // ====================================================================
