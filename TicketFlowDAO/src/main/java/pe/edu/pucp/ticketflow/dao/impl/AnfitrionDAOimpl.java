@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnfitrionDAOimpl implements AnfitrionDAO {
-
     @Override
     public List<Anfitrion> listAll(){
         List<Anfitrion> listaAnfitriones = new ArrayList<>();
@@ -28,6 +27,7 @@ public class AnfitrionDAOimpl implements AnfitrionDAO {
                 anfitrion.setRuc(rs.getString("ruc"));
                 anfitrion.setCuentaBancaria(rs.getString("cuenta_bancaria"));
                 anfitrion.setBank(Enum.valueOf(pe.edu.pucp.ticketflow.usuario.model.Banco.class, rs.getString("banco")));
+                anfitrion.setIdUsuario(rs.getInt("idAnfitrion"));
 
                 listaAnfitriones.add(anfitrion);
             }
