@@ -183,34 +183,7 @@ public class Main {
             // D) LIST
             //List<Usuario> listaUsuarios = usuarioDAO.listAll();
             //System.out.println("4. LIST: Total de usuarios en BD: " + listaUsuarios.size());
-
-            /*// ====================================================================
-            // ENTIDAD 4: USUARIO - ANFITRIÓN
-            // ====================================================================
-            System.out.println("\n--- TEST ENTIDAD: ANFITRION ---");
-
-            // A) CREATE
-            Anfitrion anfitrion = new Anfitrion(0, "Pedro", "Castillo", "Rojas", "911222333",
-                    "pedro.eventos@gmail.com", "pass456", fechaHoy, 40,
-                    TipoPerfil.ANFITRION.name(), "20202020", disLeido.getIdDistrito(), regLeida.getIdRegion(),
-                    "Eventos Pro S.A.C.", "20600012345", "0011-0123-45678901", Banco.BBVA);
-            anfitrion = anfitrionDAO.create(anfitrion);
-            int idAnf = anfitrion.getIdUsuario();
-            System.out.println("1. INSERT: Anfitrión creado con ID: " + idAnf);
-
-            // B) READ
-            Anfitrion anfLeido = anfitrionDAO.read(idAnf);
-            System.out.println("2. READ: Anfitrión leído de BD, Empresa: " + anfLeido.getRazonSocial());
-
-            // C) UPDATE
-            anfLeido.setBank(Banco.BCP); // Cambiamos de banco
-            anfitrionDAO.update(anfLeido);
-            System.out.println("3. UPDATE: Banco modificado a: " + anfitrionDAO.read(idAnf).getBank());
-
-            // D) LIST
-            List<Anfitrion> listaAnfitriones = anfitrionDAO.listAll();
-            System.out.println("4. LIST: Total de Anfitriones en BD: " + listaAnfitriones.size());
-*/
+            
 
             // ====================================================================
             // BLOQUE DELETE: ELIMINACIÓN EN CASCADA INVERSA
