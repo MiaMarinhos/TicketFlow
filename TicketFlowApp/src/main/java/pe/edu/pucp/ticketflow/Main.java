@@ -2,6 +2,7 @@ package pe.edu.pucp.ticketflow;
 
 // IMPORTS
 // MODEL
+import jdk.jfr.Configuration;
 import pe.edu.pucp.ticketflow.compra.model.Compra;
 import pe.edu.pucp.ticketflow.compra.model.EstadoCompra;
 import pe.edu.pucp.ticketflow.compra.model.GestorCompras;
@@ -86,6 +87,7 @@ public class Main {
         DistritoDAO distritoDAO = new DistritoDAOimpl();
         UsuarioDAO usuarioDAO = new UsuarioDAOimpl();
         PuntosBonusDAO puntosBonusDAO = new PuntosBonusDAOimpl();
+        AdministradorDAO adminDAO = new AdministradorDAOimpl();
 
         System.out.println("==================================================");
         System.out.println("   INICIANDO PRUEBAS CRUD - TICKETFLOW (LAB 5)");
@@ -188,14 +190,82 @@ public class Main {
             // ====================================================================
             // ENTIDAD 4: ADMINISTRADOR
             // ====================================================================
+            System.out.println("\n--- TEST ENTIDAD: ADMINISTRADOR ---");
 
-            /*// ====================================================================
+            // A) CREATE
+            Administrador admin = new Administrador(
+                    0,
+                    "Luis",
+                    "Soto",
+                    "Gomez",
+                    "999888777",
+                    "luis.soto@ticketflow.com",
+                    "pass123",
+                    fechaHoy,
+                    35,
+                    "ADMIN",
+                    "10101010",
+                    disLeido.getIdDistrito(),
+                    regLeida.getIdRegion(),
+                    "5001"
+            );
+
+            // Primero se crea en Usuario
+            admin = (Administrador) usuarioDAO.create(admin);
+
+            // Luego se crea en Administrador
+            admin = adminDAO.create(admin);
+
+            int idAdmin = admin.getIdUsuario();
+            System.out.println("1. INSERT: Admin creado con ID: " + idAdmin);
+
+            // B) READ
+            Administrador adminLeido = adminDAO.read(idAdmin);
+
+            System.out.println("2. READ: Admin leído de BD: "
+                    + adminLeido.getNombre() + " "
+                    + adminLeido.getApellidoPaterno()
+                    + " | Correo: " + adminLeido.getCorreoElectronico()
+                    + " | Código Admin: " + adminLeido.getCodigoAdmin());
+
+            // C) UPDATE
+            adminLeido.setTelefono("900000000");   // Usuario
+            adminLeido.setCodigoAdmin("9999");     // Administrador
+
+            // Actualizar Usuario (datos base)
+            usuarioDAO.update(adminLeido);
+
+            // Actualizar Administrador (datos específicos)
+            adminDAO.update(adminLeido);
+
+            Administrador actualizado = adminDAO.read(idAdmin);
+
+            System.out.println("3. UPDATE: "
+                    + actualizado.getNombre()
+                    + " | Tel: " + actualizado.getTelefono()
+                    + " | Código: " + actualizado.getCodigoAdmin());
+
+            // D) LIST
+            List<Administrador> listaAdmins = adminDAO.listAll();
+            System.out.println("4. LIST: Total de administradores en BD: " + listaUsuarios.size());
+
+            // ====================================================================
             // BLOQUE DELETE: ELIMINACIÓN EN CASCADA INVERSA
             // ====================================================================
             System.out.println("\n==================================================");
             System.out.println("   INICIANDO PRUEBAS DE ELIMINACIÓN (DELETE)");
             System.out.println("==================================================");
             System.out.println("Borrando de hijo a padre para no romper llaves foráneas...");
+
+            // Primero borrar la parte Administrador
+            adminDAO.delete(idAdmin);
+            System.out.println("- Administrador eliminado (ID: " + idAdmin + "). Resultado read: "
+                    + (adminDAO.read(idAdmin) == null ? "null" : "Error"));
+
+            // Luego borrar el Usuario asociado al Administrador
+            usuarioDAO.delete(idAdmin);
+            System.out.println("- Usuario del Administrador eliminado (ID: " + idAdmin + "). Resultado read: "
+                    + (usuarioDAO.read(idAdmin) == null ? "null" : "Error"));
 
             usuarioDAO.delete(idUsu);
             System.out.println("- Usuario eliminado (ID: " + idUsu + "). Resultado read: "
@@ -209,7 +279,7 @@ public class Main {
             System.out.println("- Región eliminada (ID: " + idReg + "). Resultado read: "
                     + (regionDAO.read(idReg) == null ? "null" : "Error"));
 
-            System.out.println("\n** TODAS LAS PRUEBAS FINALIZADAS CON ÉXITO **");*/
+            System.out.println("\n** TODAS LAS PRUEBAS FINALIZADAS CON ÉXITO **");
 
         } catch (Exception e) {
             System.err.println("\n[ERROR CRÍTICO] La prueba falló en la ejecución de la Base de Datos:");

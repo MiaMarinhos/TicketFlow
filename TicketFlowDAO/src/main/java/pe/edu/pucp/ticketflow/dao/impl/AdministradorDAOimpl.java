@@ -55,7 +55,13 @@ public class AdministradorDAOimpl implements AdministradorDAO {
     @Override
     public Administrador read(Integer id) {
         Administrador administrador = new Administrador();
-        String sql = "SELECT * FROM Administrador WHERE idAdministrador=?";
+        String sql = "SELECT a.idAdministrador, a.codigo, " +
+                "u.nombre, u.apellido_paterno, u.apellido_materno, u.telefono, " +
+                "u.correo_electronico, u.contrasena, u.fecha_registro, u.edad, " +
+                "u.tipo_usuario, u.dni, u.idDistrito, u.idRegion " +
+                "FROM Administrador a " +
+                "INNER JOIN Usuario u ON a.idAdministrador = u.idUsuario " +
+                "WHERE a.idAdministrador = ?";
 
         try (Connection con = DBManager.getInstance().getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -66,6 +72,20 @@ public class AdministradorDAOimpl implements AdministradorDAO {
                 if (rs.next()) {
                     administrador.setIdUsuario(rs.getInt("idAdministrador"));
                     administrador.setCodigoAdmin(rs.getString("codigo"));
+
+                    administrador.setNombre(rs.getString("nombre"));
+                    administrador.setApellidoPaterno(rs.getString("apellido_paterno"));
+                    administrador.setApellidoMaterno(rs.getString("apellido_materno"));
+                    administrador.setTelefono(rs.getString("telefono"));
+                    administrador.setCorreoElectronico(rs.getString("correo_electronico"));
+                    administrador.setContrasena(rs.getString("contrasena"));
+                    administrador.setFechaRegistro(rs.getDate("fecha_registro"));
+                    administrador.setEdad(rs.getInt("edad"));
+                    administrador.setTipoUsuario(rs.getString("tipo_usuario"));
+                    administrador.setDni(rs.getString("dni"));
+                    administrador.setIdDistrito(rs.getInt("idDistrito"));
+                    administrador.setIdRegion(rs.getInt("idRegion"));
+
                     return administrador;
                 }
             }
