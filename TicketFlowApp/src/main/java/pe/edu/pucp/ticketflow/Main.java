@@ -58,6 +58,8 @@ import pe.edu.pucp.ticketflow.dao.impl.UsuarioDAOimpl;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.sql.Date;
+import java.util.List;
 
 
 public class Main {
@@ -79,103 +81,191 @@ public class Main {
 
         //SEGUIR AQUI
 
-        // ---------------------------------------------------------
-        // FASE 0: INICIALIZACIÓN DE DAOs (Asumiendo nombres estándar)
-        // ---------------------------------------------------------
-        RegionDAO regionDAO = new RegionDAOimpl();
-        DistritoDAO distritoDAO = new DistritoDAOimpl();
-        PuntosBonusDAO puntosBonusDAO = new PuntosBonusDAOimpl();
+        // --- INICIALIZACIÓN DE DAOs ---
+        RegionDAOimpl regionDAO = new RegionDAOimpl();
+        DistritoDAOimpl distritoDAO = new DistritoDAOimpl();
+        AdministradorDAOimpl adminDAO = new AdministradorDAOimpl();
+        AnfitrionDAOimpl anfitrionDAO = new AnfitrionDAOimpl();
+        EventoDAOimpl eventoDAO = new EventoDAOimpl();
 
-        AdministradorDAO adminDAO = new AdministradorDAOimpl();
-        AnfitrionDAO anfitrionDAO = new AnfitrionDAOimpl();
-        ClienteDAO clienteDAO = new ClienteDAOimpl();
-
-        SolicitudDAO solicitudDAO = new SolicitudDAOimpl();
-        EventoDAO eventoDAO = new EventoDAOimpl();
-        CompraDAO compraDAO = new CompraDAOimpl();
-        PagoDAO pagoDAO = new PagoDAOimpl();
+        System.out.println("==================================================");
+        System.out.println("   INICIANDO PRUEBAS CRUD - TICKETFLOW (LAB 5)");
+        System.out.println("==================================================\n");
 
         try {
-            System.out.println("=== INICIANDO PRUEBA DE INTEGRACIÓN TICKETFLOW ===");
-
-            // ---------------------------------------------------------
-            // FASE 1: INFRAESTRUCTURA Y REGLAS DE NEGOCIO
-            // ---------------------------------------------------------
-            System.out.println("\n[1] Creando Infraestructura...");
-
-            Region region = new Region(0, "Lima");
+            // ====================================================================
+            // ENTIDAD 1: REGIÓN
+            // ====================================================================
+            System.out.println("--- TEST ENTIDAD: REGION ---");
+            // A) CREATE
+            Region region = new Region(0, "Lima Prueba");
             region = regionDAO.create(region);
-            System.out.println("  -> Región creada con ID: " + region.getIdRegion());
+            int idReg = region.getIdRegion();
+            System.out.println("1. INSERT: Región creada con ID: " + idReg);
 
-            Distrito distrito = new Distrito(0, "San Miguel", region);
+            // B) READ
+            Region regLeida = regionDAO.read(idReg);
+            System.out.println("2. READ: Región leída de BD: " + regLeida.getNombre());
+
+            // C) UPDATE
+            regLeida.setNombre("Lima Metropolitana Modificada");
+            regionDAO.update(regLeida);
+            System.out.println("3. UPDATE: Nombre modificado a: " + regionDAO.read(idReg).getNombre());
+
+            // D) LIST
+            List<Region> listaRegiones = regionDAO.listAll();
+            System.out.println("4. LIST: Total de regiones en BD: " + listaRegiones.size());
+
+
+            // ====================================================================
+            // ENTIDAD 2: DISTRITO
+            // ====================================================================
+            System.out.println("\n--- TEST ENTIDAD: DISTRITO ---");
+            // A) CREATE
+            Distrito distrito = new Distrito(0, "San Miguel Prueba", regLeida);
             distrito = distritoDAO.create(distrito);
-            System.out.println("  -> Distrito creado con ID: " + distrito.getIdDistrito());
+            int idDis = distrito.getIdDistrito();
+            System.out.println("1. INSERT: Distrito creado con ID: " + idDis);
 
-            PuntosBonus puntosRegla = new PuntosBonus(0, 100, 10);
-            puntosRegla = puntosBonusDAO.create(puntosRegla);
-            System.out.println("  -> Regla de Puntos creada con ID: " + puntosRegla.getIdPuntosBonus());
+            // B) READ
+            Distrito disLeido = distritoDAO.read(idDis);
+            System.out.println("2. READ: Distrito leído de BD: " + disLeido.getNombre() + " (Región ID: " + disLeido.getRegion().getIdRegion() + ")");
 
-            // ---------------------------------------------------------
-            // FASE 2: ACTORES DEL SISTEMA (USUARIOS)
-            // ---------------------------------------------------------
-            System.out.println("\n[2] Creando Actores del Sistema...");
-            java.sql.Date fechaHoy = new java.sql.Date(System.currentTimeMillis());
+            // C) UPDATE
+            disLeido.setNombre("Pueblo Libre Modificado");
+            distritoDAO.update(disLeido);
+            System.out.println("3. UPDATE: Nombre modificado a: " + distritoDAO.read(idDis).getNombre());
 
+            // D) LIST
+            List<Distrito> listaDistritos = distritoDAO.listAll();
+            System.out.println("4. LIST: Total de distritos en BD: " + listaDistritos.size());
+
+
+            // ====================================================================
+            // ENTIDAD 3: USUARIO - ADMINISTRADOR
+            // ====================================================================
+            System.out.println("\n--- TEST ENTIDAD: ADMINISTRADOR ---");
+            Date fechaHoy = new Date(System.currentTimeMillis());
+
+            // A) CREATE
             Administrador admin = new Administrador(0, "Luis", "Soto", "Gomez", "999888777",
                     "luis.soto@ticketflow.com", "pass123", fechaHoy, 35,
-                    TipoPerfil.ADMINISTRADOR.name(), "10101010", distrito.getIdDistrito(), region.getIdRegion(), 5001);
+                    TipoPerfil.ADMINISTRADOR.name(), "10101010", disLeido.getIdDistrito(), regLeida.getIdRegion(), 5001);
             admin = adminDAO.create(admin);
-            System.out.println("  -> Administrador creado con ID: " + admin.getIdUsuario());
+            int idAdmin = admin.getIdUsuario();
+            System.out.println("1. INSERT: Admin creado con ID: " + idAdmin);
 
+            // B) READ
+            Administrador adminLeido = adminDAO.read(idAdmin);
+            System.out.println("2. READ: Admin leído de BD, Correo: " + adminLeido.getCorreoElectronico());
+
+            // C) UPDATE
+            adminLeido.setTelefono("900000000"); // Cambiamos el teléfono
+            adminDAO.update(adminLeido);
+            System.out.println("3. UPDATE: Teléfono modificado a: " + adminDAO.read(idAdmin).getTelefono());
+
+            // D) LIST
+            List<Administrador> listaAdmins = adminDAO.listAll();
+            System.out.println("4. LIST: Total de Administradores en BD: " + listaAdmins.size());
+
+
+            // ====================================================================
+            // ENTIDAD 4: USUARIO - ANFITRIÓN
+            // ====================================================================
+            System.out.println("\n--- TEST ENTIDAD: ANFITRION ---");
+
+            // A) CREATE
             Anfitrion anfitrion = new Anfitrion(0, "Pedro", "Castillo", "Rojas", "911222333",
                     "pedro.eventos@gmail.com", "pass456", fechaHoy, 40,
-                    TipoPerfil.ANFITRION.name(), "20202020", distrito.getIdDistrito(), region.getIdRegion(),
+                    TipoPerfil.ANFITRION.name(), "20202020", disLeido.getIdDistrito(), regLeida.getIdRegion(),
                     "Eventos Pro S.A.C.", "20600012345", "0011-0123-45678901", Banco.BBVA);
             anfitrion = anfitrionDAO.create(anfitrion);
-            System.out.println("  -> Anfitrión creado con ID: " + anfitrion.getIdUsuario());
+            int idAnf = anfitrion.getIdUsuario();
+            System.out.println("1. INSERT: Anfitrión creado con ID: " + idAnf);
 
-            Cliente cliente = new Cliente(0, "Carlos", "Pérez", "Díaz", "944555666",
-                    "carlos.perez@email.com", "pass789", fechaHoy, 28,
-                    TipoPerfil.USUARIO.name(), "87654321", distrito.getIdDistrito(), region.getIdRegion(), 0);
-            cliente = clienteDAO.create(cliente);
-            System.out.println("  -> Cliente creado con ID: " + cliente.getIdUsuario());
+            // B) READ
+            Anfitrion anfLeido = anfitrionDAO.read(idAnf);
+            System.out.println("2. READ: Anfitrión leído de BD, Empresa: " + anfLeido.getRazonSocial());
 
-            // ---------------------------------------------------------
-            // FASE 3: FLUJO OPERATIVO (TRÁMITES)
-            // ---------------------------------------------------------
-            System.out.println("\n[3] Procesando Operaciones...");
+            // C) UPDATE
+            anfLeido.setBank(Banco.BCP); // Cambiamos de banco
+            anfitrionDAO.update(anfLeido);
+            System.out.println("3. UPDATE: Banco modificado a: " + anfitrionDAO.read(idAnf).getBank());
 
-            Solicitud solicitud = new Solicitud(0, "987654321", "pedro.eventos@gmail.com",
-                    "Concierto de Jazz 2024 - Lima Jazz Club", null); // Asumiendo que EstadoSolicitud requiere un Enum válido
-            solicitud = solicitudDAO.create(solicitud);
-            System.out.println("  -> Solicitud creada con ID: " + solicitud.getIdSolicitud());
+            // D) LIST
+            List<Anfitrion> listaAnfitriones = anfitrionDAO.listAll();
+            System.out.println("4. LIST: Total de Anfitriones en BD: " + listaAnfitriones.size());
 
-            Evento evento = new Evento(0, "Jazz Night Live", Categoria.Concierto,
+
+            // ====================================================================
+            // ENTIDAD 5: EVENTO
+            // ====================================================================
+            System.out.println("\n--- TEST ENTIDAD: EVENTO ---");
+
+            // A) CREATE (Usando los objetos leídos previamente para asegurar integridad)
+            Evento evento = new Evento(0, "Concierto de Prueba", Categoria.Concierto,
                     LocalDate.of(2024, 12, 24), "2 horas", LocalTime.of(20, 0), LocalTime.of(22, 0),
-                    EstadoEvento.ACEPTADO, "Av. La Marina 123", "Teatro Municipal",
-                    150.00, "url_poster.jpg", 100, 0, 0.0, 0.0, anfitrion,"Evento de Jazz nocturno",distrito,EstadoPublicacion.Borrador);
+                    EstadoEvento.ACEPTADO, "Av. La Marina 123", "Teatro Prueba",
+                    150.00, "url_poster.jpg", 100, 0, 0.0,
+                    0.0, anfLeido,"Descripción detallada del concierto de prueba.",disLeido,
+                    EstadoPublicacion.En_revision);
+
             evento = eventoDAO.create(evento);
-            System.out.println("  -> Evento creado con ID: " + evento.getIdEvento());
+            int idEve = evento.getIdEvento();
+            System.out.println("1. INSERT: Evento creado con ID: " + idEve);
 
-            // ---------------------------------------------------------
-            // FASE 4: TRANSACCIÓN Y CIERRE
-            // ---------------------------------------------------------
-            System.out.println("\n[4] Ejecutando Transacción Final...");
+            // B) READ
+            Evento eveLeido = eventoDAO.read(idEve);
+            System.out.println("2. READ: Evento leído de BD: " + eveLeido.getNombreEvento() +
+                    " (Organizador: " + eveLeido.getAnfi().getNombre() +
+                    ", Distrito: " + eveLeido.getDiscrito().getNombre() + ")");
 
-            Compra compra = new Compra(0, MetodoPago.YAPE, 2, LocalDate.now(), LocalTime.now(),
-                    0, 300.00, 0.0, 300.00, EstadoCompra.CONFIRMADO, anfitrion, evento, cliente);
-            compra = compraDAO.create(compra);
-            System.out.println("  -> Compra registrada con ID: " + compra.getIdVenta());
+            // C) UPDATE
+            eveLeido.setPrecioEntrada(200.00); // Subimos el precio
+            eventoDAO.update(eveLeido);
+            System.out.println("3. UPDATE: Precio modificado a: S/ " + eventoDAO.read(idEve).getPrecioEntrada());
 
-            Pago pago = new Pago(0, LocalDate.now(), LocalTime.now(), 270.00,
-                    EstadoPago.EN_DEUDA, anfitrion, evento);
-            pago = pagoDAO.create(pago);
-            System.out.println("  -> Pago generado (Deuda al Anfitrión) con ID: " + pago.getIdPago());
+            // D) LIST
+            List<Evento> listaEventos = eventoDAO.listAll();
+            System.out.println("4. LIST: Total de Eventos en BD: " + listaEventos.size());
 
-            System.out.println("\n=== PRUEBA DE INTEGRACIÓN FINALIZADA CON ÉXITO ===");
+
+            ---
+
+
+// D) LIST
+            List<Evento> listaEventos = eventoDAO.listAll();
+            System.out.println("4. LIST: Total de Eventos en BD: " + listaEventos.size());
+            ----
+
+            // ====================================================================
+            // BLOQUE DELETE: ELIMINACIÓN EN CASCADA INVERSA
+            // ====================================================================
+            System.out.println("\n==================================================");
+            System.out.println("   INICIANDO PRUEBAS DE ELIMINACIÓN (DELETE)");
+            System.out.println("==================================================");
+            System.out.println("Borrando de hijo a padre para no romper llaves foráneas...");
+
+            eventoDAO.delete(idEve);
+            System.out.println("- Evento eliminado (ID: " + idEve + "). Resultado read: " + (eventoDAO.read(idEve) == null ? "null" : "Error"));
+
+            anfitrionDAO.delete(idAnf);
+            System.out.println("- Anfitrión eliminado (ID: " + idAnf + "). Resultado read: " + (anfitrionDAO.read(idAnf) == null ? "null" : "Error"));
+
+            adminDAO.delete(idAdmin);
+            System.out.println("- Administrador eliminado (ID: " + idAdmin + "). Resultado read: " + (adminDAO.read(idAdmin) == null ? "null" : "Error"));
+
+            distritoDAO.delete(idDis);
+            System.out.println("- Distrito eliminado (ID: " + idDis + "). Resultado read: " + (distritoDAO.read(idDis) == null ? "null" : "Error"));
+
+            regionDAO.delete(idReg);
+            System.out.println("- Región eliminada (ID: " + idReg + "). Resultado read: " + (regionDAO.read(idReg) == null ? "null" : "Error"));
+
+            System.out.println("\n*** TODAS LAS PRUEBAS FINALIZADAS CON ÉXITO ***");
 
         } catch (Exception e) {
-            System.err.println("\n[ERROR] Fallo en la prueba de integración:");
+            System.err.println("\n[ERROR CRÍTICO] La prueba falló en la ejecución de la Base de Datos:");
+            System.err.println(e.getMessage());
             e.printStackTrace();
         }
 
