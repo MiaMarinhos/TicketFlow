@@ -1,5 +1,36 @@
 package pe.edu.pucp.ticketflow;
 
+// IMPORTS
+// MODEL
+import pe.edu.pucp.ticketflow.compra.model.Compra;
+import pe.edu.pucp.ticketflow.compra.model.EstadoCompra;
+import pe.edu.pucp.ticketflow.compra.model.GestorCompras;
+import pe.edu.pucp.ticketflow.compra.model.MetodoPago;
+import pe.edu.pucp.ticketflow.distrito.model.Distrito;
+import pe.edu.pucp.ticketflow.evento.model.Categoria;
+import pe.edu.pucp.ticketflow.evento.model.EstadoEvento;
+import pe.edu.pucp.ticketflow.evento.model.EstadoPublicacion;
+import pe.edu.pucp.ticketflow.evento.model.Evento;
+import pe.edu.pucp.ticketflow.evento.model.GestorEvento;
+import pe.edu.pucp.ticketflow.pago.model.EstadoPago;
+import pe.edu.pucp.ticketflow.pago.model.GestorPagos;
+import pe.edu.pucp.ticketflow.pago.model.Pago;
+import pe.edu.pucp.ticketflow.puntos_bonus.model.PuntosBonus;
+import pe.edu.pucp.ticketflow.region.model.Region;
+import pe.edu.pucp.ticketflow.solicitud.model.EstadoSolicitud;
+import pe.edu.pucp.ticketflow.solicitud.model.GestorSolicitud;
+import pe.edu.pucp.ticketflow.solicitud.model.Solicitud;
+import pe.edu.pucp.ticketflow.usuario.model.Administrador;
+import pe.edu.pucp.ticketflow.usuario.model.Anfitrion;
+import pe.edu.pucp.ticketflow.usuario.model.Banco;
+import pe.edu.pucp.ticketflow.usuario.model.Cliente;
+import pe.edu.pucp.ticketflow.usuario.model.EstadoPerfil;
+import pe.edu.pucp.ticketflow.usuario.model.Genero;
+import pe.edu.pucp.ticketflow.usuario.model.GestorUsuario;
+import pe.edu.pucp.ticketflow.usuario.model.TipoPerfil;
+import pe.edu.pucp.ticketflow.usuario.model.Usuario;
+
+// DAO
 import pe.edu.pucp.ticketflow.dao.AdministradorDAO;
 import pe.edu.pucp.ticketflow.dao.AnfitrionDAO;
 import pe.edu.pucp.ticketflow.dao.ClienteDAO;
@@ -12,6 +43,7 @@ import pe.edu.pucp.ticketflow.dao.RegionDAO;
 import pe.edu.pucp.ticketflow.dao.SolicitudDAO;
 import pe.edu.pucp.ticketflow.dao.UsuarioDAO;
 
+// DAOIMPL
 import pe.edu.pucp.ticketflow.dao.impl.AdministradorDAOimpl;
 import pe.edu.pucp.ticketflow.dao.impl.AnfitrionDAOimpl;
 import pe.edu.pucp.ticketflow.dao.impl.ClienteDAOimpl;
@@ -23,7 +55,9 @@ import pe.edu.pucp.ticketflow.dao.impl.PuntosBonusDAOimpl;
 import pe.edu.pucp.ticketflow.dao.impl.RegionDAOimpl;
 import pe.edu.pucp.ticketflow.dao.impl.SolicitudDAOimpl;
 import pe.edu.pucp.ticketflow.dao.impl.UsuarioDAOimpl;
-import pe.edu.pucp.ticketflow.region.model.Region;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 public class Main {
@@ -58,8 +92,8 @@ public class Main {
 
         SolicitudDAO solicitudDAO = new SolicitudDAOimpl();
         EventoDAO eventoDAO = new EventoDAOimpl();
-        CompraDAO compraDAO = new CompraDAOImpl();
-        PagoDAO pagoDAO = new PagoDAOImpl();
+        CompraDAO compraDAO = new CompraDAOimpl();
+        PagoDAO pagoDAO = new PagoDAOimpl();
 
         try {
             System.out.println("=== INICIANDO PRUEBA DE INTEGRACIÓN TICKETFLOW ===");
