@@ -33,9 +33,8 @@ public class Evento {
     private String descripcion;
 
     private Distrito distrito;
-    private Region region;
+    private EstadoPublicacion estadoPublicacion;
     //CONSTRUCTORES
-
     public Evento(){}
 
     public Evento(int idEvento, String nombreEvento, Categoria cat,
@@ -187,13 +186,14 @@ public class Evento {
     }
 
     public String getDescripcion(){return this.descripcion;}
-    public void setDescripcion(String descripcion){this.descripcion=descripcion}
+    public void setDescripcion(String descripcion){this.descripcion=descripcion;}
 
     public Distrito getDiscrito(){return this.distrito;}
     public void setDistrito(Distrito distrito){this.distrito=distrito;}
 
-    public Region getRegion(){return this.region;}
-    public void setRegion(Region region){this.region=region;}
+    public EstadoPublicacion getEstadoPublicacion(){return this.estadoPublicacion;}
+    public void setEstadoPublicacion(EstadoPublicacion estadoPublicacion){this.estadoPublicacion=estadoPublicacion;}
     //METODOS
+
 
 }

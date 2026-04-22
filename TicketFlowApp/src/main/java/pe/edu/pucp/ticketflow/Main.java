@@ -57,7 +57,7 @@ public class Main {
         ClienteDAO clienteDAO = new ClienteDAOimpl();
 
         SolicitudDAO solicitudDAO = new SolicitudDAOimpl();
-        EventoDAO eventoDAO = new EventoDAOImpl();
+        EventoDAO eventoDAO = new EventoDAOimpl();
         CompraDAO compraDAO = new CompraDAOImpl();
         PagoDAO pagoDAO = new PagoDAOImpl();
 
